@@ -5,76 +5,76 @@
      BACKGROUND
      ========================================= */
 
-  --background-primary: #0B0B10;
-  --background-secondary: #12121A;
-  --background-tertiary: #181820;
+  --background-primary: #05070C;
+  --background-secondary: #080C14;
+  --background-tertiary: #0D1320;
 
   /* =========================================
      SURFACE
      ========================================= */
 
-  --surface-primary: #181820;
-  --surface-secondary: #20202B;
-  --surface-tertiary: #282834;
+  --surface-primary: #0D1320;
+  --surface-secondary: #111A2A;
+  --surface-tertiary: #172238;
 
-  --surface-elevated: #1C1C25;
-  --surface-overlay: #101016;
-
-  /* =========================================
-     PRIMARY — VIOLET
-     ========================================= */
-
-  --primary-50: #F5F3FF;
-  --primary-100: #EDE9FE;
-  --primary-200: #DDD6FE;
-  --primary-300: #C4B5FD;
-  --primary-400: #A78BFA;
-  --primary-500: #8B5CF6;
-  --primary-600: #7C3AED;
-  --primary-700: #6D28D9;
-  --primary-800: #5B21B6;
-  --primary-900: #4C1D95;
-
-  --primary-color: #8B5CF6;
-  --primary-light: #A78BFA;
-  --primary-dark: #6D28D9;
+  --surface-elevated: #101827;
+  --surface-overlay: #070B12;
 
   /* =========================================
-     SECONDARY — LAVENDER
+     PRIMARY — MIDNIGHT BLUE
      ========================================= */
 
-  --secondary-color: #A78BFA;
-  --secondary-light: #C4B5FD;
-  --secondary-dark: #7C3AED;
+  --primary-50: #EFF6FF;
+  --primary-100: #DBEAFE;
+  --primary-200: #BFDBFE;
+  --primary-300: #93C5FD;
+  --primary-400: #60A5FA;
+  --primary-500: #3B82F6;
+  --primary-600: #2563EB;
+  --primary-700: #1D4ED8;
+  --primary-800: #1E40AF;
+  --primary-900: #1E3A8A;
+
+  --primary-color: #3B82F6;
+  --primary-light: #60A5FA;
+  --primary-dark: #1D4ED8;
 
   /* =========================================
-     PREMIUM — CHAMPAGNE
+     SECONDARY — STEEL BLUE
      ========================================= */
 
-  --premium-50: #FAF7EF;
-  --premium-100: #F5EEDC;
-  --premium-200: #EADDBB;
-  --premium-300: #DFC98F;
-  --premium-400: #D8BA7A;
-  --premium-500: #D4AF70;
-  --premium-600: #C59B57;
-  --premium-700: #A97D3F;
-  --premium-800: #8B6335;
-  --premium-900: #6F4D2B;
+  --secondary-color: #7FA6D8;
+  --secondary-light: #A8C7ED;
+  --secondary-dark: #5277A8;
 
-  --premium-color: #D4AF70;
-  --premium-light: #DFC98F;
-  --premium-dark: #A97D3F;
+  /* =========================================
+     PREMIUM — SILVER BLUE
+     ========================================= */
+
+  --premium-50: #F5F8FC;
+  --premium-100: #E8EEF6;
+  --premium-200: #D3DEEC;
+  --premium-300: #B7C7DB;
+  --premium-400: #9BAFC7;
+  --premium-500: #8499B3;
+  --premium-600: #6F849F;
+  --premium-700: #596E89;
+  --premium-800: #455A73;
+  --premium-900: #34465D;
+
+  --premium-color: #B7C7DB;
+  --premium-light: #D3DEEC;
+  --premium-dark: #6F849F;
 
   /* =========================================
      TEXT
      ========================================= */
 
-  --text-primary: #F5F5F0;
-  --text-secondary: #A1A1AA;
-  --text-tertiary: #8A8A94;
-  --text-muted: #71717A;
-  --text-disabled: #52525B;
+  --text-primary: #F4F7FB;
+  --text-secondary: #A8B2C1;
+  --text-tertiary: #7E8999;
+  --text-muted: #5D6878;
+  --text-disabled: #3D4654;
 
   --text-white: #FFFFFF;
   --text-black: #000000;
@@ -83,12 +83,12 @@
      BORDER
      ========================================= */
 
-  --border-subtle: #1F1F28;
-  --border-default: #292933;
-  --border-strong: #3F3F4A;
+  --border-subtle: #151E2D;
+  --border-default: #202C3E;
+  --border-strong: #30415A;
 
-  --border-primary: #8B5CF6;
-  --border-premium: #D4AF70;
+  --border-primary: #3B82F6;
+  --border-premium: #8499B3;
 
   /* =========================================
      SUCCESS
@@ -150,27 +150,27 @@
      RATING
      ========================================= */
 
-  --rating-excellent: #D4AF70;
-  --rating-good: #FBBF24;
-  --rating-average: #A1A1AA;
+  --rating-excellent: #FBBF24;
+  --rating-good: #F59E0B;
+  --rating-average: #A8B2C1;
   --rating-low: #F87171;
 
   /* =========================================
      GRADIENT COLORS
      ========================================= */
 
-  --gradient-primary-start: #8B5CF6;
-  --gradient-primary-end: #6D28D9;
+  --gradient-primary-start: #3B82F6;
+  --gradient-primary-end: #1D4ED8;
 
-  --gradient-premium-start: #F0D9A6;
-  --gradient-premium-end: #A97D3F;
+  --gradient-premium-start: #D3DEEC;
+  --gradient-premium-end: #596E89;
 
-  --gradient-cinematic-start: #8B5CF6;
-  --gradient-cinematic-middle: #4C1D95;
-  --gradient-cinematic-end: #0B0B10;
+  --gradient-cinematic-start: #172A46;
+  --gradient-cinematic-middle: #0D1A2E;
+  --gradient-cinematic-end: #05070C;
 
-  --gradient-dark-start: #20202B;
-  --gradient-dark-end: #0B0B10;
+  --gradient-dark-start: #172238;
+  --gradient-dark-end: #05070C;
 
   /* =========================================
      OVERLAY
@@ -181,9 +181,9 @@
 
   /* =========================================
      SPECIAL
-     =============*/
+     ========================================= */
 
-  --focus-ring: #A78BFA;
-  --selection-color: #8B5CF6;
+  --focus-ring: #60A5FA;
+  --selection-color: #2563EB;
   --selection-text: #FFFFFF;
 }
