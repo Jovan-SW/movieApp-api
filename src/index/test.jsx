@@ -1,18 +1,19 @@
-import MovieGrid from '../Component/MovieGrid/movieGrid';
+import { ErrorMessage } from '../Component/ErrorMessage/errorMessage';
 
-export default function TestGrid() {
-  const daftarFilm = [
-    { id: 1, title: "Inception", poster_path: "/9gk7adHYeDvHkYSz...jpg", rating: 8.8 },
-    { id: 2, title: "Interstellar", poster_path: "/gEU2QniE6E77NI...jpg", rating: 8.6 },
-    //... film lainnya
-  ];
+// Contoh penggunaan saat terjadi error fetching data
+export default function Test(){
+    const isError = true;
+    const fetchDataLagi = () => {
+        console.log("fetchDataLagi");
+    };
+    
+    if (isError) {
+      return (
+        <ErrorMessage 
+          message="Gagal mengambil data dari server TMDB. Pastikan koneksi internet Anda stabil." 
+          onRetry={() => fetchDataLagi()} 
+        />
+      )
+    };
 
-  return (
-    <div className="p-4 bg-gray-900 min-h-screen">
-      <MovieGrid title="Rekomendasi Film" movies={daftarFilm} />
-      
-      {/* Jika Anda ingin mencoba tampilan saat kosong: */}
-      {/* <MovieGrid title="Pencarian" movies={[]} /> */}
-    </div>
-  )
-}
+};
