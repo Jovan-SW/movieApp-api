@@ -17,6 +17,7 @@ import { LoadingSpinner, MovieGridSkeleton } from '../../Component/Loading/loadi
 import { ErrorMessage } from '../../Component/ErrorMessage/errorMessage';
 import MovieGrid from '../../Component/MovieGrid/movieGrid';
 import HeroSlider from '../../Component/HeroSlider/heroSlider';
+import Footer from '../../Component/Footer/footer'
 /**
  * Home Page
  *
@@ -113,82 +114,89 @@ function Home() {
 
   // ─── Main render ───────────────────────────────────────────
   return (
-    <main>
-      {/* ════════════════════════════════════════════════════════
-          SECTION 1 — Hero Banner
-          ════════════════════════════════════════════════════════ */}
+    <main className="min-h-screen bg-[var(--background-color,#0a0a0a)] text-gray-100 pb-24 font-sans selection:bg-[var(--primary-color,#3b82f6)] selection:text-white">
+      
+      {/* SECTION 1 — Hero Slider (Sudah full screen) */}
       <HeroSlider />
+
+      {/* Container Utama: Memberikan spacing dan layout elegan */}
+      <div className="container mx-auto px-6 md:px-12 lg:px-16 mt-16 space-y-20 relative z-20">
         
+        {/* ════════════════════════════════════════════════════════
+            SECTION 2 — Trending Movies
+            ════════════════════════════════════════════════════════ */}
+        <section id="trending-section" className="transition-all duration-500 hover:scale-[1.01]">
+          {trending.loading ? (
+            <MovieGridSkeleton count={10} />
+          ) : trending.error ? (
+            <ErrorMessage message={trending.error} fullHeight={false} />
+          ) : (
+            <MovieGrid movies={trending.data} title="🔥 Trending Today" />
+          )}
+        </section>
 
 
-      {/* ════════════════════════════════════════════════════════
-          SECTION 2 — Trending Movies
-          ════════════════════════════════════════════════════════ */}
-      <section id="trending-section">
-        {trending.loading ? (
-          <MovieGridSkeleton count={10} />
-        ) : trending.error ? (
-          <ErrorMessage message={trending.error} fullHeight={false} />
-        ) : (
-          <MovieGrid movies={trending.data} title="🔥 Trending Today" />
-        )}
-      </section>
+        {/* ════════════════════════════════════════════════════════
+            SECTION 3 — Now Playing
+            ════════════════════════════════════════════════════════ */}
+        <section id="now-playing-section" className="transition-all duration-500 hover:scale-[1.01]">
+          {nowPlaying.loading ? (
+            <MovieGridSkeleton count={10} />
+          ) : nowPlaying.error ? (
+            <ErrorMessage message={nowPlaying.error} fullHeight={false} />
+          ) : (
+            <MovieGrid movies={nowPlaying.data} title="🎬 Now Playing" />
+          )}
+        </section>
 
 
-      {/* ════════════════════════════════════════════════════════
-          SECTION 3 — Now Playing
-          ════════════════════════════════════════════════════════ */}
-      <section id="now-playing-section">
-        {nowPlaying.loading ? (
-          <MovieGridSkeleton count={10} />
-        ) : nowPlaying.error ? (
-          <ErrorMessage message={nowPlaying.error} fullHeight={false} />
-        ) : (
-          <MovieGrid movies={nowPlaying.data} title="🎬 Now Playing" />
-        )}
-      </section>
+        {/* ════════════════════════════════════════════════════════
+            SECTION 4 — Popular Movies
+            ════════════════════════════════════════════════════════ */}
+        <section id="popular-section" className="transition-all duration-500 hover:scale-[1.01]">
+          {popular.loading ? (
+            <MovieGridSkeleton count={10} />
+          ) : popular.error ? (
+            <ErrorMessage message={popular.error} fullHeight={false} />
+          ) : (
+            <MovieGrid movies={popular.data} title="🌟 Popular" />
+          )}
+        </section>
 
 
-      {/* ════════════════════════════════════════════════════════
-          SECTION 4 — Popular Movies
-          ════════════════════════════════════════════════════════ */}
-      <section id="popular-section">
-        {popular.loading ? (
-          <MovieGridSkeleton count={10} />
-        ) : popular.error ? (
-          <ErrorMessage message={popular.error} fullHeight={false} />
-        ) : (
-          <MovieGrid movies={popular.data} title="🌟 Popular" />
-        )}
-      </section>
+        {/* ════════════════════════════════════════════════════════
+            SECTION 5 — Top Rated
+            ════════════════════════════════════════════════════════ */}
+        <section id="top-rated-section" className="transition-all duration-500 hover:scale-[1.01]">
+          {topRated.loading ? (
+            <MovieGridSkeleton count={10} />
+          ) : topRated.error ? (
+            <ErrorMessage message={topRated.error} fullHeight={false} />
+          ) : (
+            <MovieGrid movies={topRated.data} title="🏆 Top Rated" />
+          )}
+        </section>
 
 
-      {/* ════════════════════════════════════════════════════════
-          SECTION 5 — Top Rated
-          ════════════════════════════════════════════════════════ */}
-      <section id="top-rated-section">
-        {topRated.loading ? (
-          <MovieGridSkeleton count={10} />
-        ) : topRated.error ? (
-          <ErrorMessage message={topRated.error} fullHeight={false} />
-        ) : (
-          <MovieGrid movies={topRated.data} title="🏆 Top Rated" />
-        )}
-      </section>
+        {/* ════════════════════════════════════════════════════════
+            SECTION 6 — Upcoming
+            ════════════════════════════════════════════════════════ */}
+        <section id="upcoming-section" className="transition-all duration-500 hover:scale-[1.01]">
+          {upcoming.loading ? (
+            <MovieGridSkeleton count={10} />
+          ) : upcoming.error ? (
+            <ErrorMessage message={upcoming.error} fullHeight={false} />
+          ) : (
+            <MovieGrid movies={upcoming.data} title="📅 Upcoming" />
+          )}
+        </section>
 
-
-      {/* ════════════════════════════════════════════════════════
-          SECTION 6 — Upcoming
-          ════════════════════════════════════════════════════════ */}
-      <section id="upcoming-section">
-        {upcoming.loading ? (
-          <MovieGridSkeleton count={10} />
-        ) : upcoming.error ? (
-          <ErrorMessage message={upcoming.error} fullHeight={false} />
-        ) : (
-          <MovieGrid movies={upcoming.data} title="📅 Upcoming" />
-        )}
-      </section>
+        {/* ════════════════════════════════════════════════════════
+            FOOTER
+           ════════════════════════════════════════════════════════ */}
+        <Footer />
+        
+      </div>
     </main>
   );
 }
