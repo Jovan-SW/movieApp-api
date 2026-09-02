@@ -79,17 +79,19 @@ export function searchMovies(query, options = {}) {
   return tmdbFetch("/search/movie", mergedOptions);
 }
 
-/**
- * Menemukan (discover) film berdasarkan berbagai filter seperti genre, tahun, dsb.
- * Contoh params: { with_genres: '28,12', sort_by: 'popularity.desc' }
- * @param {Object} options - Opsi tambahan
- * @returns {Promise<Object>}
- */
-export function discoverMovies(options = {}) {
-  return tmdbFetch("/discover/movie", options);
-}
 
+// Function Discover dengan filter kombinasi genre, year, dan sort
+// Function Discover dengan filter kombinasi genre, year, dan sort
+export const getDiscoverMovies = async (genre, year, sortBy, options = {}) => {
+  const params = { ...options.params };
 
+  if (sortBy) params.sort_by = sortBy;
+  if (genre) params.with_genres = genre;
+  if (year) params.primary_release_year = year;
+
+  // tmdbFetch sudah return JSON parsed langsung, jangan diakses .data lagi
+  return tmdbFetch('/discover/movie', { ...options, params });
+};
 // ============================================================================
 // GENRES
 // ============================================================================

@@ -14,7 +14,7 @@ import {
 
 // ─── Components ───
 import { LoadingSpinner, MovieGridSkeleton } from '../../Component/Loading/loading';
-import { ErrorMessage } from '../../Component/ErrorMessage/errorMessage';
+import ErrorMessage from '../../Component/ErrorMessage/errorMessage';
 import MovieGrid from '../../Component/MovieGrid/movieGrid';
 import HeroSlider from '../../Component/HeroSlider/heroSlider';
 import Footer from '../../Component/Footer/footer'

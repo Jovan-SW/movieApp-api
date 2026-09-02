@@ -6,7 +6,7 @@
  * @param {function} onRetry - Fungsi yang dijalankan ketika tombol retry ditekan.
  * @param {boolean} fullHeight - Jika true, komponen akan mengambil tinggi layar penuh atau parent (min-h-[50vh]).
  */
-export const ErrorMessage = ({ 
+const ErrorMessage = ({ 
   message = "We encountered an unexpected error while trying to process your request.", 
   onRetry,
   fullHeight = true
@@ -80,3 +80,5 @@ export const ErrorMessage = ({
     </div>
   );
 };
+
+export default ErrorMessage

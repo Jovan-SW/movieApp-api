@@ -5,15 +5,21 @@ const SearchBar = ({ onSearch, placeholder = "Search for movies..." }) => {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && keyword.trim() !== '') {
-      onSearch(keyword.trim());
+      if (typeof onSearch === 'function'){
+        onSearch(keyword.trim());
+      } else if (typeof onSearch === 'string') {
+        onSearch(keyword.trim());
+      }
     }
   };
 
   const handleSearchClick = () => {
     if (keyword.trim() !== '') {
-      onSearch(keyword.trim());
+      if (typeof onSearch === 'function'){
+        onSearch(keyword.trim());
     }
-  };
+  }
+};
 
   return (
     <div className="relative w-full max-w-none mx-auto">
@@ -50,5 +56,6 @@ const SearchBar = ({ onSearch, placeholder = "Search for movies..." }) => {
     </div>
   );
 };
+
 
 export default SearchBar;
