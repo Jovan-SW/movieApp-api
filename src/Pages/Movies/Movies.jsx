@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Footer from '../../Component/Footer/footer';
 import SearchBar from '../../Component/SearchBar/searchBar';
@@ -21,19 +21,21 @@ const TMDB_MAX_PAGE = 500;
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // --- URL adalah single source of truth untuk semua filter ---
-  const debouncedQuery = searchParams.get('q') || '';
+  // --- FILTER: tetap sumber kebenarannya dari URL → bertahan saat refresh
   const selectedGenre = searchParams.get('genre') || '';
   const selectedYear = searchParams.get('year') || '';
   const sortBy = searchParams.get('sort') || DEFAULT_SORT;
   const page = Math.max(1, Number(searchParams.get('page')) || 1);
 
-  const isSearchActive = debouncedQuery.trim() !== '';
+  // --- SEARCH: sengaja BUKAN bagian dari URL, murni local state.
+  // Konsekuensinya: begitu halaman di-refresh, kedua state ini balik ke ''
+  // sehingga hasil search otomatis "kembali ke awal".
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
 
+  const isSearchActive = debouncedQuery.trim() !== '';
+  
   // --- Local state ---
-  // searchTerm dipisah dari URL supaya ketikan tetap instan & tidak
-  // membanjiri history dengan entry baru di setiap huruf yang diketik.
-  const [searchTerm, setSearchTerm] = useState(debouncedQuery);
   const [movies, setMovies] = useState([]);
   const [genresList, setGenresList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +50,7 @@ const Movies = () => {
   // Helper terpusat untuk update query params secara immutable.
   // resetPage: hapus param page (dipakai saat filter berubah, bukan pagination).
   // replace: true → tidak menambah history entry baru (dipakai untuk debounce ketik).
-  const updateParams = useCallback((updates, { resetPage = false, replace = false } = {}) => {
+  const updateParams = useCallback((updates, { resetPage = false } = {}) => {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
       Object.entries(updates).forEach(([key, value]) => {
@@ -60,7 +62,7 @@ const Movies = () => {
       });
       if (resetPage) next.delete('page');
       return next;
-    }, { replace });
+    });
   }, [setSearchParams]);
 
   // Sinkronkan input box saat `q` di URL berubah dari LUAR proses ketik
@@ -84,17 +86,25 @@ const Movies = () => {
     return () => controller.abort();
   }, []);
 
-  // 2. Debounce: dorong searchTerm ke URL setelah user berhenti mengetik
+  // 2. Debounce search: cuma nyentuh local state, TIDAK menyentuh URL sama sekali
   useEffect(() => {
-    if (searchTerm === debouncedQuery) return; // sudah sinkron, tidak perlu apa-apa
-
-    const timer = setTimeout(() => {
-      updateParams({ q: searchTerm || null }, { resetPage: true, replace: true });
-    }, 400);
-
+    const timer = setTimeout(() => setDebouncedQuery(searchTerm), 400);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
+
+  // 2B. Reset page (di URL) setiap kali status search berubah —
+  // baik mulai search baru, ganti kata kunci, maupun search di-clear.
+  // Skip di render pertama supaya tidak menghapus ?page= yang sudah ada
+  // di URL saat halaman dibuka/refresh dengan filter aktif.
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    updateParams({}, { resetPage: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedQuery]);
 
   // 3A. Fetch untuk mode SEARCH
   useEffect(() => {
@@ -204,49 +214,54 @@ const Movies = () => {
   const isGenreFilteredSearch = isSearchActive && selectedGenre !== '';
 
   return (
-    <div className="movies-page-container">
+    <div className="movies-page-container min-h-screen bg-[#0f172a] text-white pb-20">
       <main className="movies-content">
-        <header className="movies-header">
-          <h1>Explore Movies</h1>
-          <p>Find your favorite movies from TMDB.</p>
+        <header className="movies-header relative w-full pt-24 pb-16 md:pt-36 md:pb-24 bg-gradient-to-b from-blue-900/30 via-[#0f172a]/80 to-[#0f172a] flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)] mb-4 tracking-wide mt-4 md:mt-6">
+            Explore Movies
+          </h1>
+          <p className="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto">
+            Find your favorite movies from TMDB.
+          </p>
         </header>
 
-        <section className="search-section">
+        <section className="search-section w-full max-w-3xl mx-auto px-4 sm:px-6 -mt-8 relative z-10 mb-12">
           <SearchBar
             value={searchTerm}
             onSearch={handleSearch}
             placeholder="Search movie by title..."
+            className="w-full bg-gray-800/80 border border-gray-600 focus:border-cyan-500 rounded-full py-3 md:py-4 px-6 text-white placeholder-gray-400 outline-none transition-all duration-300 backdrop-blur-sm shadow-lg focus:shadow-[0_0_20px_rgba(6,182,212,0.3)]"
           />
         </section>
 
-        <section className="filter-section">
-          <div className="filter-group">
-            <label htmlFor="filter-genre">Genre</label>
-            <select id="filter-genre" value={selectedGenre} onChange={handleGenreChange}>
-              <option value="">All Genres</option>
+        <section className="filter-section container mx-auto px-4 md:px-8 mb-12 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+          <div className="flex items-center gap-3 bg-gray-800/50 backdrop-blur-md border border-gray-700/60 rounded-xl px-4 py-2.5 w-full md:w-auto hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.25)] transition-all duration-300 group">
+            <label htmlFor="filter-genre" className="text-xs md:text-sm font-semibold uppercase tracking-wider text-cyan-400 shrink-0 group-hover:text-cyan-300">Genre</label>
+            <select id="filter-genre" value={selectedGenre} onChange={handleGenreChange} className="bg-transparent text-white text-sm md:text-base outline-none cursor-pointer w-full py-1 font-medium focus:text-cyan-300">
+              <option value="" className="bg-gray-900 text-gray-300">All Genres</option>
               {genresList.map((g) => (
-                <option key={g.id} value={g.id}>{g.name}</option>
+                <option key={g.id} value={g.id} className="bg-gray-900 text-white">{g.name}</option>
               ))}
             </select>
           </div>
 
-          <div className="filter-group">
-            <label htmlFor="filter-year">Year</label>
-            <select id="filter-year" value={selectedYear} onChange={handleYearChange}>
-              <option value="">All Years</option>
+          <div className="flex items-center gap-3 bg-gray-800/50 backdrop-blur-md border border-gray-700/60 rounded-xl px-4 py-2.5 w-full md:w-auto hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.25)] transition-all duration-300 group">
+            <label htmlFor="filter-year" className="text-xs md:text-sm font-semibold uppercase tracking-wider text-cyan-400 shrink-0 group-hover:text-cyan-300">Year</label>
+            <select id="filter-year" value={selectedYear} onChange={handleYearChange} className="bg-transparent text-white text-sm md:text-base outline-none cursor-pointer w-full py-1 font-medium focus:text-cyan-300">
+              <option value="" className="bg-gray-900 text-gray-300">All Years</option>
               {years.map((year) => (
-                <option key={year} value={year}>{year}</option>
+                <option key={year} value={year} className="bg-gray-900 text-white">{year}</option>
               ))}
             </select>
           </div>
 
-          <div className="filter-group">
-            <label htmlFor="filter-sort">Sort By</label>
-            <select id="filter-sort" value={sortBy} onChange={handleSortChange}>
-              <option value="popularity.desc">Most Popular</option>
-              <option value="vote_average.desc">Highest Rated</option>
-              <option value="primary_release_date.desc">Latest Release</option>
-              <option value="title.asc">Title (A-Z)</option>
+          <div className="flex items-center gap-3 bg-gray-800/50 backdrop-blur-md border border-gray-700/60 rounded-xl px-4 py-2.5 w-full md:w-auto hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.25)] transition-all duration-300 group">
+            <label htmlFor="filter-sort" className="text-xs md:text-sm font-semibold uppercase tracking-wider text-cyan-400 shrink-0 group-hover:text-cyan-300">Sort By</label>
+            <select id="filter-sort" value={sortBy} onChange={handleSortChange} className="bg-transparent text-white text-sm md:text-base outline-none cursor-pointer w-full py-1 font-medium focus:text-cyan-300">
+              <option value="popularity.desc" className="bg-gray-900 text-white">Most Popular</option>
+              <option value="vote_average.desc" className="bg-gray-900 text-white">Highest Rated</option>
+              <option value="primary_release_date.desc" className="bg-gray-900 text-white">Latest Release</option>
+              <option value="title.asc" className="bg-gray-900 text-white">Title (A-Z)</option>
             </select>
           </div>
         </section>
@@ -280,23 +295,23 @@ const Movies = () => {
         </section>
 
         {!isLoading && !error && totalPages > 1 && (
-          <nav className="pagination-section" aria-label="Pagination">
+          <nav className="flex items-center justify-center gap-3 md:gap-4 mt-16 mb-12 px-4" aria-label="Pagination">
             <button
               type="button"
-              className="pagination-button"
+              className="px-5 py-2.5 md:px-7 md:py-3 bg-gray-800/60 border border-gray-700/80 text-gray-200 rounded-xl font-medium tracking-wide transition-all duration-300 hover:bg-cyan-600/20 hover:text-cyan-400 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gray-800/60 disabled:hover:text-gray-200 disabled:hover:border-gray-700/80 disabled:hover:shadow-none"
               onClick={() => handlePageChange(page - 1)}
               disabled={page === 1}
             >
               Previous
             </button>
 
-            <span className="pagination-current">
+            <span className="text-sm md:text-base font-semibold text-gray-300 px-4 py-2 bg-gray-900/60 rounded-lg border border-gray-800 backdrop-blur-sm shadow-inner">
               Halaman {page} / {totalPages}
             </span>
 
             <button
               type="button"
-              className="pagination-button"
+              className="px-5 py-2.5 md:px-7 md:py-3 bg-gray-800/60 border border-gray-700/80 text-gray-200 rounded-xl font-medium tracking-wide transition-all duration-300 hover:bg-cyan-600/20 hover:text-cyan-400 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gray-800/60 disabled:hover:text-gray-200 disabled:hover:border-gray-700/80 disabled:hover:shadow-none"
               onClick={() => handlePageChange(page + 1)}
               disabled={page === totalPages}
             >

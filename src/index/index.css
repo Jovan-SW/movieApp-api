@@ -187,3 +187,35 @@
   --selection-color: #2563EB;
   --selection-text: #FFFFFF;
 }
+
+/* Futuristic Filter Button Hover Effect */
+.filter-futuristic {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.filter-futuristic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.4), transparent);
+  transform: skewX(-20deg);
+  transition: all 0.6s ease;
+  z-index: -1;
+}
+
+.filter-futuristic:hover::before {
+  left: 150%;
+}
+
+.filter-active {
+  background: linear-gradient(to right, #06b6d4, #2563eb); /* Gradasi Cyan ke Blue */
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+  color: white;
+  border-color: transparent;
+}
