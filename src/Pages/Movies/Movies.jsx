@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Footer from '../../Component/Footer/footer';
 import SearchBar from '../../Component/SearchBar/searchBar';
 import MovieGrid from '../../Component/MovieGrid/movieGrid';
@@ -6,8 +7,6 @@ import { LoadingSpinner } from '../../Component/Loading/loading';
 import ErrorMessage from '../../Component/ErrorMessage/errorMessage';
 import { getPopularMovies, getDiscoverMovies, searchMovies, getMovieGenres } from '../../services/movieApi';
 
-// TMDB tidak mendukung sort_by di endpoint search, jadi sorting hasil search
-// dilakukan di client menggunakan comparator yang setara dengan opsi discover.
 const SORT_COMPARATORS = {
   'popularity.desc': (a, b) => (b.popularity ?? 0) - (a.popularity ?? 0),
   'vote_average.desc': (a, b) => (b.vote_average ?? 0) - (a.vote_average ?? 0),
@@ -16,33 +15,59 @@ const SORT_COMPARATORS = {
   'title.asc': (a, b) => (a.title || '').localeCompare(b.title || ''),
 };
 
-// TMDB membatasi maksimal 500 halaman meskipun total_pages di response lebih besar.
+const DEFAULT_SORT = 'popularity.desc';
 const TMDB_MAX_PAGE = 500;
 
 const Movies = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // --- URL adalah single source of truth untuk semua filter ---
+  const debouncedQuery = searchParams.get('q') || '';
+  const selectedGenre = searchParams.get('genre') || '';
+  const selectedYear = searchParams.get('year') || '';
+  const sortBy = searchParams.get('sort') || DEFAULT_SORT;
+  const page = Math.max(1, Number(searchParams.get('page')) || 1);
+
+  const isSearchActive = debouncedQuery.trim() !== '';
+
+  // --- Local state ---
+  // searchTerm dipisah dari URL supaya ketikan tetap instan & tidak
+  // membanjiri history dengan entry baru di setiap huruf yang diketik.
+  const [searchTerm, setSearchTerm] = useState(debouncedQuery);
   const [movies, setMovies] = useState([]);
   const [genresList, setGenresList] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [retryTrigger, setRetryTrigger] = useState(0);
-
-  // State Search & Filters
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('');
-  const [selectedYear, setSelectedYear] = useState('');
-  const [sortBy, setSortBy] = useState('popularity.desc');
-
-  // State Pagination
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 40 }, (_, i) => currentYear - i);
 
-  const isSearchActive = debouncedQuery.trim() !== '';
+  // Helper terpusat untuk update query params secara immutable.
+  // resetPage: hapus param page (dipakai saat filter berubah, bukan pagination).
+  // replace: true → tidak menambah history entry baru (dipakai untuk debounce ketik).
+  const updateParams = useCallback((updates, { resetPage = false, replace = false } = {}) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value === null || value === undefined || value === '') {
+          next.delete(key);
+        } else {
+          next.set(key, String(value));
+        }
+      });
+      if (resetPage) next.delete('page');
+      return next;
+    }, { replace });
+  }, [setSearchParams]);
+
+  // Sinkronkan input box saat `q` di URL berubah dari LUAR proses ketik
+  // (tombol Back/Forward browser, atau membuka link yang di-share).
+  useEffect(() => {
+    setSearchTerm(debouncedQuery);
+  }, [debouncedQuery]);
 
   // 1. Fetch Daftar Genre
   useEffect(() => {
@@ -59,24 +84,21 @@ const Movies = () => {
     return () => controller.abort();
   }, []);
 
-  // 2. Debounce Search Bar
+  // 2. Debounce: dorong searchTerm ke URL setelah user berhenti mengetik
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedQuery(searchTerm), 400);
+    if (searchTerm === debouncedQuery) return; // sudah sinkron, tidak perlu apa-apa
+
+    const timer = setTimeout(() => {
+      updateParams({ q: searchTerm || null }, { resetPage: true, replace: true });
+    }, 400);
+
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
-  // 2B. Reset ke halaman 1 setiap kali kriteria pencarian/filter berubah.
-  // Dipisah dari effect fetch supaya perubahan filter tidak "menumpuk"
-  // dengan perubahan page dalam satu render yang sama.
-  useEffect(() => {
-    setPage(1);
-  }, [debouncedQuery, selectedGenre, selectedYear, sortBy]);
-
   // 3A. Fetch untuk mode SEARCH
-  // Genre & sort tetap TIDAK memicu fetch (ditangani client-side di useMemo),
-  // hanya query, year, dan page yang memicu request baru ke server.
   useEffect(() => {
-    if (!isSearchActive) return; // ditangani oleh effect 3B
+    if (!isSearchActive) return; // ditangani effect 3B
 
     const controller = new AbortController();
 
@@ -85,10 +107,7 @@ const Movies = () => {
       setError(null);
       try {
         const data = await searchMovies(debouncedQuery, {
-          params: {
-            primary_release_year: selectedYear || undefined,
-            page,
-          },
+          params: { primary_release_year: selectedYear || undefined, page },
           signal: controller.signal,
         });
         setMovies(data?.results || []);
@@ -104,14 +123,14 @@ const Movies = () => {
 
     fetchSearchResults();
     return () => controller.abort();
-  }, [debouncedQuery, selectedYear, retryTrigger, isSearchActive, page]);
+  }, [debouncedQuery, selectedYear, page, retryTrigger, isSearchActive]);
 
-  // 3B. Fetch untuk mode DISCOVER / DEFAULT (tanpa search aktif)
+  // 3B. Fetch untuk mode DISCOVER / DEFAULT
   useEffect(() => {
-    if (isSearchActive) return; // ditangani oleh effect 3A
+    if (isSearchActive) return; // ditangani effect 3A
 
     const controller = new AbortController();
-    const hasFilter = selectedGenre !== '' || selectedYear !== '' || sortBy !== 'popularity.desc';
+    const hasFilter = selectedGenre !== '' || selectedYear !== '' || sortBy !== DEFAULT_SORT;
 
     const fetchDiscoverResults = async () => {
       setIsLoading(true);
@@ -137,9 +156,9 @@ const Movies = () => {
 
     fetchDiscoverResults();
     return () => controller.abort();
-  }, [debouncedQuery, selectedGenre, selectedYear, sortBy, retryTrigger, isSearchActive, page]);
+  }, [selectedGenre, selectedYear, sortBy, page, retryTrigger, isSearchActive]);
 
-  // 4. Terapkan filter Genre & Sort di client HANYA saat mode search aktif.
+  // 4. Filter & sort di client, HANYA saat mode search aktif
   const displayedMovies = useMemo(() => {
     if (!isSearchActive) return movies;
 
@@ -156,18 +175,32 @@ const Movies = () => {
     return result;
   }, [movies, isSearchActive, selectedGenre, sortBy]);
 
+  // --- Handlers ---
   const handleSearch = (e) => {
     const value = typeof e === 'string' ? e : e?.target?.value || '';
-    setSearchTerm(value);
+    setSearchTerm(value); // update input instan; URL menyusul setelah debounce
+  };
+
+  const handleGenreChange = (e) => {
+    updateParams({ genre: e.target.value || null }, { resetPage: true });
+  };
+
+  const handleYearChange = (e) => {
+    updateParams({ year: e.target.value || null }, { resetPage: true });
+  };
+
+  const handleSortChange = (e) => {
+    const value = e.target.value;
+    updateParams({ sort: value !== DEFAULT_SORT ? value : null }, { resetPage: true });
   };
 
   const handlePageChange = (newPage) => {
     if (newPage < 1 || newPage > totalPages || newPage === page) return;
-    setPage(newPage);
+    updateParams({ page: newPage !== 1 ? newPage : null });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const hasActiveFilter = selectedGenre !== '' || selectedYear !== '' || sortBy !== 'popularity.desc';
+  const hasActiveFilter = selectedGenre !== '' || selectedYear !== '' || sortBy !== DEFAULT_SORT;
   const isGenreFilteredSearch = isSearchActive && selectedGenre !== '';
 
   return (
@@ -189,11 +222,7 @@ const Movies = () => {
         <section className="filter-section">
           <div className="filter-group">
             <label htmlFor="filter-genre">Genre</label>
-            <select
-              id="filter-genre"
-              value={selectedGenre}
-              onChange={(e) => setSelectedGenre(e.target.value)}
-            >
+            <select id="filter-genre" value={selectedGenre} onChange={handleGenreChange}>
               <option value="">All Genres</option>
               {genresList.map((g) => (
                 <option key={g.id} value={g.id}>{g.name}</option>
@@ -203,11 +232,7 @@ const Movies = () => {
 
           <div className="filter-group">
             <label htmlFor="filter-year">Year</label>
-            <select
-              id="filter-year"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
-            >
+            <select id="filter-year" value={selectedYear} onChange={handleYearChange}>
               <option value="">All Years</option>
               {years.map((year) => (
                 <option key={year} value={year}>{year}</option>
@@ -217,11 +242,7 @@ const Movies = () => {
 
           <div className="filter-group">
             <label htmlFor="filter-sort">Sort By</label>
-            <select
-              id="filter-sort"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-            >
+            <select id="filter-sort" value={sortBy} onChange={handleSortChange}>
               <option value="popularity.desc">Most Popular</option>
               <option value="vote_average.desc">Highest Rated</option>
               <option value="primary_release_date.desc">Latest Release</option>
