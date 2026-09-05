@@ -38,13 +38,13 @@ const Footer = () => {
                 <Link to="/" className="hover:text-white transition-colors duration-200">Home</Link>
               </li>
               <li>
-                <a href="#trending-section" className="hover:text-white transition-colors duration-200">Trending</a>
+                <Link to="/movies" className="hover:text-white transition-colors duration-200">Movies</Link>
               </li>
               <li>
-                <a href="#now-playing-section" className="hover:text-white transition-colors duration-200">Now Playing</a>
+                <Link to="/watchlist" className="hover:text-white transition-colors duration-200">WatchList</Link>
               </li>
               <li>
-                <a href="#popular-section" className="hover:text-white transition-colors duration-200">Popular</a>
+                <Link to="/profile" className="hover:text-white transition-colors duration-200">Profile</Link>
               </li>
             </ul>
           </div>

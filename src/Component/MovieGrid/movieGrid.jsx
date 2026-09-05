@@ -34,10 +34,9 @@ const MovieGrid = ({ movies, title }) => {
         Responsive Grid Layout - Clean & Premium:
         - 2 kolom pada mobile dengan gap proporsional
         - 3 kolom pada tablet
-        - 4 kolom pada desktop kecil
-        - 5 kolom pada desktop besar
+        - 4 kolom pada desktop
       */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-8 md:gap-10">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-8 md:gap-10">
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
