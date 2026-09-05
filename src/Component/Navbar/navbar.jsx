@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import SearchBar from '../SearchBar/searchBar';
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -302,6 +304,69 @@ const Navbar = () => {
             0 0 0 1px rgba(59, 130, 246, 0.2),
             0 0 14px rgba(59, 130, 246, 0.18);
         }
+
+        /* ─── Avatar Button ─── */
+        .avatar-btn {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.75rem;
+          height: 2.75rem;
+          border-radius: 9999px;
+          border: 2px solid rgba(59, 130, 246, 0.35);
+          background: rgba(59, 130, 246, 0.08);
+          color: var(--text-secondary);
+          cursor: pointer;
+          outline: none;
+          text-decoration: none;
+          transition:
+            border-color 0.25s ease,
+            background 0.25s ease,
+            box-shadow 0.25s ease,
+            transform 0.2s ease;
+          flex-shrink: 0;
+          overflow: hidden;
+        }
+
+        .avatar-btn:hover {
+          border-color: rgba(96, 165, 250, 0.7);
+          background: rgba(59, 130, 246, 0.14);
+          box-shadow:
+            0 0 0 3px rgba(59, 130, 246, 0.15),
+            0 0 18px rgba(59, 130, 246, 0.25);
+          transform: scale(1.05);
+          color: var(--primary-light);
+        }
+
+        .avatar-btn.active-profile {
+          border-color: rgba(96, 165, 250, 0.9);
+          background: rgba(59, 130, 246, 0.18);
+          box-shadow:
+            0 0 0 3px rgba(59, 130, 246, 0.2),
+            0 0 22px rgba(59, 130, 246, 0.3);
+          color: var(--primary-light);
+        }
+
+        /* Logged-in avatar initial badge */
+        .avatar-initials {
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          background: linear-gradient(135deg, #93c5fd, #60a5fa);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          user-select: none;
+        }
+
+        /* Desktop avatar slightly bigger */
+        @media (min-width: 768px) {
+          .avatar-btn {
+            width: 3rem;
+            height: 3rem;
+          }
+        }
       `}</style>
 
       <nav className="fixed top-0 left-0 w-full z-50 bg-[var(--background-primary)]/85 backdrop-blur-2xl border-b border-[var(--border-subtle)] shadow-[0_1px_20px_rgba(0,0,0,0.4)]">
@@ -334,14 +399,23 @@ const Navbar = () => {
                 <SearchBar onSearch={handleSearch} placeholder="Search movies..." />
               </div>
 
-              {/* Profile Desktop */}
+              {/* ─── Avatar / Profile Button ─── */}
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
-                  `nav-link-desktop ml-1${isActive ? ' active-link' : ''}`
+                  `avatar-btn ml-3${isActive ? ' active-profile' : ''}`
                 }
+                aria-label="Profile"
               >
-                Profile
+                {user ? (
+                  <span className="avatar-initials">
+                    {user.email?.[0]?.toUpperCase() ?? '?'}
+                  </span>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                )}
               </NavLink>
             </div>
 
@@ -356,15 +430,24 @@ const Navbar = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </button>
-              <Link
+              {/* ─── Mobile Avatar Button ─── */}
+              <NavLink
                 to="/profile"
-                className="mobile-icon-btn"
+                className={({ isActive }) =>
+                  `avatar-btn${isActive ? ' active-profile' : ''}`
+                }
                 aria-label="Profile"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </Link>
+                {user ? (
+                  <span className="avatar-initials" style={{ fontSize: '0.75rem' }}>
+                    {user.email?.[0]?.toUpperCase() ?? '?'}
+                  </span>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                )}
+              </NavLink>
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="mobile-icon-btn"
