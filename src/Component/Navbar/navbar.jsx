@@ -14,7 +14,10 @@ const Navbar = () => {
   ];
 
   const handleSearch = (keyword) => {
-    navigate(`/search?q=${encodeURIComponent(keyword)}`);
+    const trimmed = keyword.trim();
+    if (trimmed) {
+      navigate(`/movies?search=${encodeURIComponent(trimmed)}`);
+    }
     setIsOpen(false);
     setIsMobileSearchOpen(false);
   };

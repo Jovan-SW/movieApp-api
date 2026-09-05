@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const SearchBar = ({ onSearch, placeholder = "Search for movies..." }) => {
-  const [keyword, setKeyword] = useState('');
+const SearchBar = ({ onSearch, placeholder = "Search for movies...", value = '' }) => {
+  const [keyword, setKeyword] = useState(value);
+
+  // Sync dengan query dari luar (URL) tanpa merusak input lokal
+  useEffect(() => {
+    setKeyword(value);
+  }, [value]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && keyword.trim() !== '') {

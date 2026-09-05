@@ -27,11 +27,12 @@ const Movies = () => {
   const sortBy = searchParams.get('sort') || DEFAULT_SORT;
   const page = Math.max(1, Number(searchParams.get('page')) || 1);
 
-  // --- SEARCH: sengaja BUKAN bagian dari URL, murni local state.
-  // Konsekuensinya: begitu halaman di-refresh, kedua state ini balik ke ''
-  // sehingga hasil search otomatis "kembali ke awal".
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  // --- TANGKAP URL PARAMETER SEARCH ---
+  const urlSearchQuery = searchParams.get('search') || '';
+
+  // --- SEARCH: Gunakan URL parameter sebagai nilai awal ---
+  const [searchTerm, setSearchTerm] = useState(urlSearchQuery);
+  const [debouncedQuery, setDebouncedQuery] = useState(urlSearchQuery);
 
   const isSearchActive = debouncedQuery.trim() !== '';
   
@@ -65,11 +66,14 @@ const Movies = () => {
     });
   }, [setSearchParams]);
 
-  // Sinkronkan input box saat `q` di URL berubah dari LUAR proses ketik
-  // (tombol Back/Forward browser, atau membuka link yang di-share).
+  // Sinkronkan input saat URL parameter 'search' berubah dari LUAR 
+  // (pencarian dari Navbar / tombol Back browser).
   useEffect(() => {
-    setSearchTerm(debouncedQuery);
-  }, [debouncedQuery]);
+    if (urlSearchQuery !== debouncedQuery) {
+      setSearchTerm(urlSearchQuery);
+      setDebouncedQuery(urlSearchQuery);
+    }
+  }, [urlSearchQuery]);
 
   // 1. Fetch Daftar Genre
   useEffect(() => {
@@ -86,11 +90,16 @@ const Movies = () => {
     return () => controller.abort();
   }, []);
 
-  // 2. Debounce search: cuma nyentuh local state, TIDAK menyentuh URL sama sekali
+  // 2. Debounce search & Update URL Parameter
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedQuery(searchTerm), 400);
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchTerm);
+      if (searchTerm.trim() !== urlSearchQuery) {
+        updateParams({ search: searchTerm.trim() || null });
+      }
+    }, 400);
     return () => clearTimeout(timer);
-  }, [searchTerm]);
+  }, [searchTerm, urlSearchQuery, updateParams]);
 
   // 2B. Reset page (di URL) setiap kali status search berubah —
   // baik mulai search baru, ganti kata kunci, maupun search di-clear.

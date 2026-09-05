@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import {
   getTrendingMovies,
   getNowPlayingMovies,
-  getPopularMovies,
-  getTopRatedMovies,
   getUpcomingMovies,
   getMovieGenres,
 } from '../../services/movieApi';
@@ -25,9 +23,7 @@ import Footer from '../../Component/Footer/footer'
  *  1. Hero Banner   — Spotlight from trending movie #1
  *  2. Trending      — getTrendingMovies('day')
  *  3. Now Playing   — getNowPlayingMovies()
- *  4. Popular       — getPopularMovies()
- *  5. Top Rated     — getTopRatedMovies()
- *  6. Upcoming      — getUpcomingMovies()
+ *  4. Upcoming      — getUpcomingMovies()
  *
  * State structure per-section: { data, loading, error }
  * Global genre map fetched once for ID→name resolution.
@@ -41,8 +37,6 @@ function Home() {
   // ─── Section states ────────────────────────────────────────
   const [trending,   setTrending]   = useState({ data: [], loading: true, error: null });
   const [nowPlaying, setNowPlaying] = useState({ data: [], loading: true, error: null });
-  const [popular,    setPopular]    = useState({ data: [], loading: true, error: null });
-  const [topRated,   setTopRated]   = useState({ data: [], loading: true, error: null });
   const [upcoming,   setUpcoming]   = useState({ data: [], loading: true, error: null });
 
 
@@ -80,8 +74,6 @@ function Home() {
     fetchGenres();
     fetchSection(getTrendingMovies,   setTrending,   'day');
     fetchSection(getNowPlayingMovies, setNowPlaying);
-    fetchSection(getPopularMovies,    setPopular);
-    fetchSection(getTopRatedMovies,   setTopRated);
     fetchSection(getUpcomingMovies,   setUpcoming);
 
     // Cleanup: abort all in-flight requests on unmount
@@ -90,11 +82,11 @@ function Home() {
 
   // ─── Derived state ─────────────────────────────────────────
   const isInitialLoading =
-    trending.loading && nowPlaying.loading && popular.loading && topRated.loading && upcoming.loading;
+    trending.loading && nowPlaying.loading && upcoming.loading;
 
   const allFailed =
-    !trending.loading && !nowPlaying.loading && !popular.loading && !topRated.loading && !upcoming.loading &&
-    trending.error && nowPlaying.error && popular.error && topRated.error && upcoming.error;
+    !trending.loading && !nowPlaying.loading && !upcoming.loading &&
+    trending.error && nowPlaying.error && upcoming.error;
 
 
   // ─── Full-page loading ─────────────────────────────────────
@@ -131,7 +123,7 @@ function Home() {
           ) : trending.error ? (
             <ErrorMessage message={trending.error} fullHeight={false} />
           ) : (
-            <MovieGrid movies={trending.data} title="🔥 Trending Today" />
+            <MovieGrid movies={trending.data} title="Trending" />
           )}
         </section>
 
@@ -145,41 +137,12 @@ function Home() {
           ) : nowPlaying.error ? (
             <ErrorMessage message={nowPlaying.error} fullHeight={false} />
           ) : (
-            <MovieGrid movies={nowPlaying.data} title="🎬 Now Playing" />
+            <MovieGrid movies={nowPlaying.data} title="Now Playing" />
           )}
         </section>
 
-
         {/* ════════════════════════════════════════════════════════
-            SECTION 4 — Popular Movies
-            ════════════════════════════════════════════════════════ */}
-        <section id="popular-section" className="transition-all duration-500 hover:scale-[1.01]">
-          {popular.loading ? (
-            <MovieGridSkeleton count={10} />
-          ) : popular.error ? (
-            <ErrorMessage message={popular.error} fullHeight={false} />
-          ) : (
-            <MovieGrid movies={popular.data} title="🌟 Popular" />
-          )}
-        </section>
-
-
-        {/* ════════════════════════════════════════════════════════
-            SECTION 5 — Top Rated
-            ════════════════════════════════════════════════════════ */}
-        <section id="top-rated-section" className="transition-all duration-500 hover:scale-[1.01]">
-          {topRated.loading ? (
-            <MovieGridSkeleton count={10} />
-          ) : topRated.error ? (
-            <ErrorMessage message={topRated.error} fullHeight={false} />
-          ) : (
-            <MovieGrid movies={topRated.data} title="🏆 Top Rated" />
-          )}
-        </section>
-
-
-        {/* ════════════════════════════════════════════════════════
-            SECTION 6 — Upcoming
+            SECTION 4 — Upcoming
             ════════════════════════════════════════════════════════ */}
         <section id="upcoming-section" className="transition-all duration-500 hover:scale-[1.01]">
           {upcoming.loading ? (
@@ -187,7 +150,7 @@ function Home() {
           ) : upcoming.error ? (
             <ErrorMessage message={upcoming.error} fullHeight={false} />
           ) : (
-            <MovieGrid movies={upcoming.data} title="📅 Upcoming" />
+            <MovieGrid movies={upcoming.data} title="Upcoming" />
           )}
         </section>
 

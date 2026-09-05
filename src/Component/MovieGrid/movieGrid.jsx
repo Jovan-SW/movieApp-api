@@ -23,7 +23,7 @@ const MovieGrid = ({ movies, title }) => {
       {/* Jika properti title diberikan (misal: "Film Populer"), tampilkan header */}
       {title && (
         <div className="mb-8 md:mb-10 flex items-center justify-between">
-          <h2 className="text-2xl md:text-3xl font-bold text-white border-l-4 border-[var(--premium-color)] pl-4 tracking-wide uppercase text-sm md:text-base drop-shadow-sm">
+          <h2 className="!text-4xl md:text-4xl font-bold text-white border-l-4 border-[var(--premium-color)] pl-4 tracking-wide uppercase text-sm md:text-base drop-shadow-sm">
             {title}
           </h2>
           <div className="h-[1px] flex-grow bg-gradient-to-r from-[var(--border-strong)] to-transparent ml-6 opacity-50 hidden sm:block"></div>
