@@ -109,7 +109,7 @@ export const normalizeMovieData = (movie) => {
     synopsis,
     genres,
     director: movie.director || null,
-    duration: movie.duration || null,
+    duration: movie.runtime || movie.duration || null,
     minAge: movie.minAge || null,
   };
 };

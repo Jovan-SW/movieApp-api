@@ -55,7 +55,7 @@ function Home() {
     const fetchSection = async (apiFn, setter, ...apiArgs) => {
       try {
         const response = await apiFn(...apiArgs, { signal });
-        setter({ data: response.results ?? [], loading: false, error: null });
+        setter({ data: (response.results ?? []).slice(0, 8), loading: false, error: null });
       } catch (err) {
         // Don't update state if request was cancelled (component unmount)
         if (err.name === 'AbortError') return;

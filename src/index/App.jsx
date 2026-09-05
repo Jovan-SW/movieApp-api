@@ -7,6 +7,7 @@ import WatchList from "../Pages/WatchList/WatchList"
 import Search from "../Pages/Search/Search"
 import Profile from "../Pages/Profile/Profile"
 
+import MovieDetail from "../Pages/MovieDetail/movieDetail"
 
 export default function App(){
 
@@ -21,6 +22,7 @@ export default function App(){
           <Route path="/watchlist" element={<WatchList />} />
           <Route path="/search" element={<Search />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/movie/:id" element={<MovieDetail />} />
         </Routes>
       </BrowserRouter>
     </>
