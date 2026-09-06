@@ -96,7 +96,7 @@ const Footer = () => {
 
           {/* Info Pencipta Website */}
           <p className="flex items-center gap-1.5">
-            Created by <span className="text-[var(--primary-color,#3b82f6)] font-semibold">{creatorName}</span>
+            Built & designed by <span className="text-[var(--primary-color,#3b82f6)] font-semibold">{creatorName}</span>
           </p>
 
         </div>
