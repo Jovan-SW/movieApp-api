@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getMovieDetails, getMovieCredits, getSimilarMovies } from '../../services/movieApi';
+import { addToWatchlist, removeFromWatchlist, isInWatchlist } from '../../services/watchlistApi';
 import { normalizeMovieData } from '../../utils/genreHelper';
+import { useAuth } from '../../context/AuthContext';
 import { LoadingSpinner } from '../../Component/Loading/loading';
 import ErrorMessage from '../../Component/ErrorMessage/errorMessage';
 import Footer from '../../Component/Footer/footer';
@@ -10,11 +12,21 @@ import MovieCard from '../../Component/MovieCard/movieCard';
 const MovieDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useAuth();
+
   const [movie, setMovie] = useState(null);
+  const [rawMovie, setRawMovie] = useState(null); // simpan response TMDB asli (untuk poster_path & release_date mentah)
   const [cast, setCast] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // State khusus watchlist
+  const [inWatchlist, setInWatchlist] = useState(false);
+  const [watchlistChecking, setWatchlistChecking] = useState(true);
+  const [watchlistLoading, setWatchlistLoading] = useState(false);
+  const [watchlistError, setWatchlistError] = useState('');
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -30,6 +42,7 @@ const MovieDetail = () => {
         ]);
         
         setMovie(normalizeMovieData(detailData));
+        setRawMovie(detailData);
         
         // Batasi jumlah cast menjadi 8 karakter utama saja
         setCast(creditsData?.cast ? creditsData.cast.slice(0, 8) : []);
@@ -48,6 +61,73 @@ const MovieDetail = () => {
       fetchDetail();
     }
   }, [id]);
+
+  // Cek status watchlist setiap kali user atau film (id) berubah
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkWatchlistStatus = async () => {
+      if (!user || !id) {
+        if (isMounted) {
+          setInWatchlist(false);
+          setWatchlistChecking(false);
+        }
+        return;
+      }
+
+      setWatchlistChecking(true);
+      try {
+        const exists = await isInWatchlist(user.id, id);
+        if (isMounted) setInWatchlist(exists);
+      } catch (err) {
+        console.error('Failed to check watchlist status:', err);
+      } finally {
+        if (isMounted) setWatchlistChecking(false);
+      }
+    };
+
+    checkWatchlistStatus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user, id]);
+
+  const handleToggleWatchlist = async () => {
+    // Belum login → arahkan ke halaman login, lalu balik ke sini setelah login
+    if (!user) {
+      navigate('/login', { state: { from: location } });
+      return;
+    }
+
+    setWatchlistLoading(true);
+    setWatchlistError('');
+
+    try {
+      if (inWatchlist) {
+        const { error: removeError } = await removeFromWatchlist(user.id, id);
+        if (removeError) {
+          setWatchlistError(removeError);
+        } else {
+          setInWatchlist(false);
+        }
+      } else {
+        const { error: addError, alreadyExists } = await addToWatchlist(user.id, {
+          id,
+          title: movie?.title,
+          poster_path: rawMovie?.poster_path ?? null,
+          release_date: rawMovie?.release_date ?? null,
+        });
+        if (addError && !alreadyExists) {
+          setWatchlistError(addError);
+        } else {
+          setInWatchlist(true);
+        }
+      }
+    } finally {
+      setWatchlistLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -166,10 +246,32 @@ const MovieDetail = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-              <button className="px-8 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 transition-all hover:scale-105">
-                Add to Watchlist
-              </button>
+            <div className="flex flex-col items-center md:items-start gap-2">
+              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                <button
+                  onClick={handleToggleWatchlist}
+                  disabled={watchlistLoading || watchlistChecking}
+                  className={`px-8 py-3 font-bold rounded-xl border transition-all hover:scale-105 disabled:opacity-60 disabled:hover:scale-100 flex items-center gap-2 ${
+                    inWatchlist
+                      ? 'bg-red-500/10 hover:bg-red-500/20 text-red-300 border-red-500/30'
+                      : 'bg-white/10 hover:bg-white/20 text-white border-white/10'
+                  }`}
+                >
+                  {watchlistLoading ? (
+                    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  ) : inWatchlist ? (
+                    'Remove from Watchlist'
+                  ) : (
+                    '+ Add to Watchlist'
+                  )}
+                </button>
+              </div>
+              {watchlistError && (
+                <p className="text-sm text-red-400">{watchlistError}</p>
+              )}
             </div>
           </div>
         </div>

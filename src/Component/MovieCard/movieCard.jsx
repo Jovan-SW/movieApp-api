@@ -1,13 +1,18 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import GlareHover from '../GlareHover/GlareHover';
 import { normalizeMovieData } from '../../utils/genreHelper';
+import { useAuth } from '../../context/AuthContext';
+import { addToWatchlist, removeFromWatchlist, isInWatchlist } from '../../services/watchlistApi';
 import './movieCard.css';
 
 const MovieCard = ({ movie }) => {
   const [showInfo, setShowInfo] = useState(false);
   const [isAddedToWatchlist, setIsAddedToWatchlist] = useState(false);
+  const [watchlistLoading, setWatchlistLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useAuth();
 
   if (!movie) return null;
 
@@ -25,6 +30,31 @@ const MovieCard = ({ movie }) => {
     minAge,
   } = normalizeMovieData(movie);
 
+  // Sinkronisasi status bookmark dengan watchlist di Supabase setiap kali
+  // user login/logout atau card menampilkan film yang berbeda.
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkStatus = async () => {
+      if (!user || !id) {
+        if (isMounted) setIsAddedToWatchlist(false);
+        return;
+      }
+      try {
+        const exists = await isInWatchlist(user.id, id);
+        if (isMounted) setIsAddedToWatchlist(exists);
+      } catch (err) {
+        console.error('Failed to check watchlist status:', err);
+      }
+    };
+
+    checkStatus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user, id]);
+
   const handleCardClick = () => {
     if (id) {
       navigate(`/movie/${id}`);
@@ -36,9 +66,38 @@ const MovieCard = ({ movie }) => {
     setShowInfo((prev) => !prev);
   };
 
-  const handleWatchlist = (e) => {
+  const handleWatchlist = async (e) => {
     e.stopPropagation();
-    setIsAddedToWatchlist((prev) => !prev);
+
+    // Belum login → arahkan ke halaman login, balik lagi ke halaman ini setelahnya
+    if (!user) {
+      navigate('/login', { state: { from: location } });
+      return;
+    }
+
+    if (watchlistLoading) return;
+    setWatchlistLoading(true);
+
+    try {
+      if (isAddedToWatchlist) {
+        const { error } = await removeFromWatchlist(user.id, id);
+        if (!error) setIsAddedToWatchlist(false);
+      } else {
+        // movie (prop asli, sebelum dinormalisasi) masih punya field mentah
+        // TMDB seperti poster_path & release_date — dipakai langsung di sini.
+        const { error } = await addToWatchlist(user.id, {
+          id,
+          title,
+          poster_path: movie.poster_path ?? null,
+          release_date: movie.release_date ?? null,
+        });
+        if (!error) setIsAddedToWatchlist(true);
+      }
+    } catch (err) {
+      console.error('Failed to toggle watchlist:', err);
+    } finally {
+      setWatchlistLoading(false);
+    }
   };
 
   return (
@@ -92,18 +151,26 @@ const MovieCard = ({ movie }) => {
       {/* 4. Top Right Actions (Watchlist & Info Toggle Buttons) */}
       <div className="absolute top-3 right-3 flex flex-col gap-2 z-30">
         <button 
-          className={`p-2 rounded-full backdrop-blur-md border transition-all duration-300 flex items-center justify-center ${
+          className={`p-2 rounded-full backdrop-blur-md border transition-all duration-300 flex items-center justify-center disabled:opacity-60 ${
             isAddedToWatchlist 
               ? 'bg-blue-600/90 border-blue-400 text-white shadow-[0_0_15px_rgba(59,130,246,0.6)] scale-105' 
               : 'bg-black/40 border-white/20 text-white hover:bg-white/25 hover:border-white/40 hover:scale-110'
           }`}
           onClick={handleWatchlist}
+          disabled={watchlistLoading}
           title={isAddedToWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
           aria-label={isAddedToWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={isAddedToWatchlist ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-          </svg>
+          {watchlistLoading ? (
+            <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={isAddedToWatchlist ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+          )}
         </button>
         
         <button 
