@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import Footer from '../../Component/Footer/footer';
 import SearchBar from '../../Component/SearchBar/searchBar';
 import MovieGrid from '../../Component/MovieGrid/movieGrid';
@@ -32,6 +32,22 @@ const Movies = () => {
 
   // --- SEARCH: Gunakan URL parameter sebagai nilai awal ---
   const [searchTerm, setSearchTerm] = useState(urlSearchQuery);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Tangkap pencarian dari Navbar
+  useEffect(() => {
+    if (location.state?.searchQuery) {
+      const queryDariNavbar = location.state.searchQuery;
+      
+      // Masukkan ke search bar di halaman Movie
+      setSearchTerm(queryDariNavbar);
+      
+      // LANGSUNG hapus dari memory. 
+      // Jadi kalau user tekan Refresh, datanya sudah kosong dan hasil search hilang.
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state, location.pathname, navigate]);
   const [debouncedQuery, setDebouncedQuery] = useState(urlSearchQuery);
 
   const isSearchActive = debouncedQuery.trim() !== '';

@@ -18,7 +18,8 @@ const Navbar = () => {
   const handleSearch = (keyword) => {
     const trimmed = keyword.trim();
     if (trimmed) {
-      navigate(`/movies?search=${encodeURIComponent(trimmed)}`);
+      // Mengirim keyword lewat "state" (memory sementara), bukan ke URL
+      navigate('/movies', { state: { searchQuery: trimmed } });
     }
     setIsOpen(false);
     setIsMobileSearchOpen(false);
