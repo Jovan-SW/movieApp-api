@@ -10,8 +10,8 @@ const MovieGrid = ({ movies, title }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
           </svg>
         </div>
-        <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Tidak Ada Film Ditemukan</h3>
-        <p className="text-gray-400 max-w-md text-sm md:text-base">
+        <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-2">Tidak Ada Film Ditemukan</h3>
+        <p className="text-[var(--text-secondary)] max-w-md text-sm md:text-base">
           Maaf, saat ini tidak ada data film yang bisa ditampilkan. Silakan coba kembali nanti atau ubah filter pencarian Anda.
         </p>
       </div>
@@ -23,7 +23,7 @@ const MovieGrid = ({ movies, title }) => {
       {/* Jika properti title diberikan (misal: "Film Populer"), tampilkan header */}
       {title && (
         <div className="mb-8 md:mb-10 flex items-center justify-between">
-          <h2 className="!text-4xl md:text-4xl font-bold text-white border-l-4 border-[var(--premium-color)] pl-4 tracking-wide uppercase text-sm md:text-base drop-shadow-sm">
+          <h2 className="!text-4xl md:text-4xl font-bold text-[var(--text-primary)] border-l-4 border-[var(--premium-color)] pl-4 tracking-wide uppercase text-sm md:text-base drop-shadow-sm">
             {title}
           </h2>
           <div className="h-[1px] flex-grow bg-gradient-to-r from-[var(--border-strong)] to-transparent ml-6 opacity-50 hidden sm:block"></div>

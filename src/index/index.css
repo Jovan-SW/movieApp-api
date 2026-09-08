@@ -176,6 +176,9 @@
      OVERLAY
      ========================================= */
 
+  --background-color: var(--background-primary);
+  --primary-hover: #2563EB;
+
   --overlay-light: #FFFFFF;
   --overlay-dark: #000000;
 
@@ -186,6 +189,134 @@
   --focus-ring: #60A5FA;
   --selection-color: #2563EB;
   --selection-text: #FFFFFF;
+}
+
+[data-theme="light"],
+.light {
+  /* =========================================
+     BACKGROUND (LIGHT THEME)
+     ========================================= */
+  --background-primary: #F8FAFC;
+  --background-secondary: #F1F5F9;
+  --background-tertiary: #E2E8F0;
+  --background-color: #F8FAFC;
+
+  /* =========================================
+     SURFACE (LIGHT THEME)
+     ========================================= */
+  --surface-primary: #FFFFFF;
+  --surface-secondary: #F8FAFC;
+  --surface-tertiary: #F1F5F9;
+
+  --surface-elevated: #FFFFFF;
+  --surface-overlay: #FFFFFF;
+
+  /* =========================================
+     PRIMARY — SAPPHIRE BLUE
+     ========================================= */
+  --primary-50: #EFF6FF;
+  --primary-100: #DBEAFE;
+  --primary-200: #BFDBFE;
+  --primary-300: #93C5FD;
+  --primary-400: #60A5FA;
+  --primary-500: #2563EB;
+  --primary-600: #1D4ED8;
+  --primary-700: #1E40AF;
+  --primary-800: #1E3A8A;
+  --primary-900: #172554;
+
+  --primary-color: #2563EB;
+  --primary-light: #3B82F6;
+  --primary-dark: #1D4ED8;
+  --primary-hover: #1D4ED8;
+
+  /* =========================================
+     SECONDARY — SLATE
+     ========================================= */
+  --secondary-color: #475569;
+  --secondary-light: #64748B;
+  --secondary-dark: #334155;
+
+  /* =========================================
+     PREMIUM — ROYAL ACCENT
+     ========================================= */
+  --premium-50: #F8FAFC;
+  --premium-100: #F1F5F9;
+  --premium-200: #E2E8F0;
+  --premium-300: #CBD5E1;
+  --premium-400: #94A3B8;
+  --premium-500: #64748B;
+  --premium-600: #475569;
+  --premium-700: #334155;
+  --premium-800: #1E293B;
+  --premium-900: #0F172A;
+
+  --premium-color: #2563EB;
+  --premium-light: #3B82F6;
+  --premium-dark: #1E293B;
+
+  /* =========================================
+     TEXT (LIGHT THEME)
+     ========================================= */
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-tertiary: #64748B;
+  --text-muted: #94A3B8;
+  --text-disabled: #CBD5E1;
+
+  --text-white: #FFFFFF;
+  --text-black: #000000;
+
+  /* =========================================
+     BORDER (LIGHT THEME)
+     ========================================= */
+  --border-subtle: #E2E8F0;
+  --border-default: #CBD5E1;
+  --border-strong: #94A3B8;
+
+  --border-primary: #2563EB;
+  --border-premium: #64748B;
+
+  /* =========================================
+     GRADIENT COLORS (LIGHT THEME)
+     ========================================= */
+  --gradient-primary-start: #3B82F6;
+  --gradient-primary-end: #1D4ED8;
+
+  --gradient-premium-start: #DBEAFE;
+  --gradient-premium-end: #BFDBFE;
+
+  --gradient-cinematic-start: #DBEAFE;
+  --gradient-cinematic-middle: #EFF6FF;
+  --gradient-cinematic-end: #F8FAFC;
+
+  --gradient-dark-start: #E2E8F0;
+  --gradient-dark-end: #F8FAFC;
+
+  /* =========================================
+     OVERLAY
+     ========================================= */
+  --overlay-light: #000000;
+  --overlay-dark: #FFFFFF;
+
+  /* =========================================
+     SPECIAL
+     ========================================= */
+  --focus-ring: #3B82F6;
+  --selection-color: #2563EB;
+  --selection-text: #FFFFFF;
+}
+
+/* Global Smooth Transitions */
+html {
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+body {
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  transition: background-color 0.35s ease, color 0.35s ease;
+  min-height: 100vh;
 }
 
 /* Futuristic Filter Button Hover Effect */

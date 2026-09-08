@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import SearchBar from '../SearchBar/searchBar';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -87,6 +89,57 @@ const Navbar = () => {
             drop-shadow(0 1px 0px rgba(255,255,255,0.35))
             drop-shadow(0 2px 0px rgba(148,163,184,0.5))
             drop-shadow(0 3px 0px rgba(71,85,105,0.4));
+        }
+
+        [data-theme="light"] .revlume-logo .logo-lume {
+          background: linear-gradient(
+            145deg,
+            #1e293b 0%,
+            #334155 30%,
+            #475569 60%,
+            #1e293b 100%
+          );
+          filter:
+            drop-shadow(0 1px 0px rgba(255,255,255,0.9))
+            drop-shadow(0 2px 0px rgba(148,163,184,0.3))
+            drop-shadow(0 3px 0px rgba(71,85,105,0.2));
+        }
+
+        /* ─── Theme Toggle Button ─── */
+        .theme-toggle-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.75rem;
+          height: 2.75rem;
+          border-radius: 9999px;
+          border: 1.5px solid var(--border-subtle);
+          background: var(--surface-secondary);
+          color: var(--text-secondary);
+          cursor: pointer;
+          outline: none;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          flex-shrink: 0;
+          position: relative;
+        }
+
+        .theme-toggle-btn:hover {
+          color: var(--primary-light);
+          border-color: rgba(59, 130, 246, 0.5);
+          background: var(--surface-tertiary);
+          box-shadow: 0 0 16px rgba(59, 130, 246, 0.22);
+          transform: translateY(-1px) scale(1.05);
+        }
+
+        .theme-toggle-btn:active {
+          transform: translateY(0px) scale(0.95);
+        }
+
+        @media (min-width: 768px) {
+          .theme-toggle-btn {
+            width: 3rem;
+            height: 3rem;
+          }
         }
 
         .revlume-logo:hover .logo-text {
@@ -400,6 +453,25 @@ const Navbar = () => {
                 <SearchBar onSearch={handleSearch} placeholder="Search movies..." />
               </div>
 
+              {/* ─── Theme Toggle Button Desktop ─── */}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="theme-toggle-btn ml-3"
+                title={theme === 'dark' ? 'Ganti ke Light Mode' : 'Ganti ke Dark Mode'}
+                aria-label={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+              >
+                {theme === 'dark' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)] transition-transform duration-500 hover:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-blue-600 drop-shadow-[0_0_6px_rgba(37,99,235,0.35)] transition-transform duration-500 hover:-rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                )}
+              </button>
+
               {/* ─── Avatar / Profile Button ─── */}
               <NavLink
                 to="/profile"
@@ -420,8 +492,27 @@ const Navbar = () => {
               </NavLink>
             </div>
 
-            {/* ─── Mobile Actions: Search, Profile, Hamburger ─── */}
+            {/* ─── Mobile Actions: Theme, Search, Profile, Hamburger ─── */}
             <div className="flex md:hidden items-center gap-0.5">
+              {/* Mobile Theme Toggle Button */}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="mobile-icon-btn"
+                title={theme === 'dark' ? 'Ganti ke Light Mode' : 'Ganti ke Dark Mode'}
+                aria-label={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+              >
+                {theme === 'dark' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                )}
+              </button>
+
               <button
                 onClick={() => setIsMobileSearchOpen(true)}
                 className="mobile-icon-btn"
@@ -505,6 +596,21 @@ const Navbar = () => {
                 {link.name}
               </NavLink>
             ))}
+
+            {/* Mobile Menu Theme Toggle Row */}
+            <div className="pt-3 mt-3 border-t border-[var(--border-subtle)] flex items-center justify-between px-3 py-2 text-sm text-[var(--text-secondary)]">
+              <span>Tema: <strong className="text-[var(--text-primary)] capitalize">{theme}</strong></span>
+              <button
+                type="button"
+                onClick={() => {
+                  toggleTheme();
+                  setIsOpen(false);
+                }}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--surface-secondary)] border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-blue-500/50 transition-colors text-xs font-semibold"
+              >
+                {theme === 'dark' ? '☀️ Mode Terang' : '🌙 Mode Gelap'}
+              </button>
+            </div>
           </div>
         </div>
       </nav>

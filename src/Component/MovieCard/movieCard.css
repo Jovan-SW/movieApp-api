@@ -3,9 +3,19 @@
   --mc-text-color: #ffffff;
   --mc-text-muted: #a0a0a0;
   --mc-accent-color: #06b6d4; /* Cyan */
-  --mc-glass-bg: rgba(8, 12, 20, 0.92);
+  --mc-glass-bg: rgba(8, 12, 20, 0.94);
   --mc-glass-border: rgba(255, 255, 255, 0.1);
   --mc-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+[data-theme="light"],
+.light {
+  --mc-bg-color: #ffffff;
+  --mc-text-color: #0f172a;
+  --mc-text-muted: #475569;
+  --mc-accent-color: #0284c7;
+  --mc-glass-bg: rgba(255, 255, 255, 0.96);
+  --mc-glass-border: rgba(0, 0, 0, 0.08);
 }
 
 /* Custom Scrollbar untuk kontainer sinopsis */

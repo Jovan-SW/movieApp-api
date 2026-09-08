@@ -193,7 +193,7 @@ const MovieCard = ({ movie }) => {
 
       {/* 5. Glassmorphism Info Panel (Slides Up when Clicked) */}
       <div 
-        className={`absolute inset-0 z-20 flex flex-col justify-between p-3.5 sm:p-4 md:p-5 bg-[#080C14]/92 backdrop-blur-xl transition-all duration-500 ease-in-out border-t border-cyan-500/30 ${
+        className={`absolute inset-0 z-20 flex flex-col justify-between p-3.5 sm:p-4 md:p-5 bg-[var(--mc-glass-bg)] backdrop-blur-xl transition-all duration-500 ease-in-out border-t border-[var(--mc-accent-color)]/30 ${
           showInfo 
             ? 'translate-y-0 opacity-100 pointer-events-auto' 
             : 'translate-y-full opacity-0 pointer-events-none'
@@ -203,7 +203,7 @@ const MovieCard = ({ movie }) => {
         {/* Top Header inside Info Panel */}
         <div>
           <div className="flex justify-between items-start gap-2 mb-1.5">
-            <h4 className="text-sm sm:text-base md:text-lg font-bold text-white leading-snug line-clamp-2 drop-shadow-md">
+            <h4 className="text-sm sm:text-base md:text-lg font-bold text-[var(--mc-text-color)] leading-snug line-clamp-2 drop-shadow-md">
               {title}
             </h4>
             <button 

@@ -10,6 +10,7 @@ import MovieDetail from "../Pages/MovieDetail/movieDetail"
 import Login from "../Pages/Login/Login"
 import Register from "../Pages/Register/Register"
 import { AuthProvider } from "../context/AuthContext"
+import { ThemeProvider } from "../context/ThemeContext"
 import ProtectedRoute from "../Component/ProtectedRoute/ProtectedRoute"
 import { useAuth } from "../context/AuthContext"
 
@@ -23,8 +24,8 @@ function PublicOnlyRoute({ children }) {
 
 export default function App(){
 
-  return(
-    <>
+  return (
+    <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
           <Navbar />
@@ -62,6 +63,6 @@ export default function App(){
           </Routes>
         </BrowserRouter>
       </AuthProvider>
-    </>
+    </ThemeProvider>
   );
 }

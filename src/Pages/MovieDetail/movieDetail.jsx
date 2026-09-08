@@ -160,7 +160,7 @@ const MovieDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background-primary,#05070C)] text-white font-sans selection:bg-blue-500 selection:text-white pb-20">
+    <div className="min-h-screen bg-[var(--background-primary,#05070C)] text-[var(--text-primary)] font-sans selection:bg-blue-500 selection:text-white pb-20 transition-colors duration-300">
       {/* 1. Backdrop Section */}
       <div className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden">
         {movie.backdropUrl ? (
@@ -172,7 +172,7 @@ const MovieDetail = () => {
         ) : (
           <div className="w-full h-full bg-gray-900"></div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--background-primary,#05070C)] via-[#05070C]/60 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--background-primary,#05070C)] via-[var(--background-primary,#05070C)]/60 to-transparent"></div>
       </div>
 
       {/* 2. Main Content Container */}
@@ -198,11 +198,11 @@ const MovieDetail = () => {
 
           {/* Info Kanan */}
           <div className="flex-1 text-center md:text-left mt-4 md:mt-16">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight drop-shadow-lg mb-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight drop-shadow-lg mb-4 text-[var(--text-primary)]">
               {movie.title}
             </h1>
             
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6 text-sm text-gray-300">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6 text-sm text-[var(--text-secondary)]">
               <div className="flex items-center gap-1.5 bg-yellow-500/20 px-3 py-1 rounded-full border border-yellow-500/30">
                 <svg className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -239,8 +239,8 @@ const MovieDetail = () => {
 
             {/* Synopsis */}
             <div className="mb-10">
-              <h3 className="text-xl font-bold text-white mb-3">Sinopsis</h3>
-              <p className="text-gray-300 leading-relaxed max-w-3xl text-base md:text-lg">
+              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Sinopsis</h3>
+              <p className="text-[var(--text-secondary)] leading-relaxed max-w-3xl text-base md:text-lg">
                 {movie.synopsis}
               </p>
             </div>
@@ -279,7 +279,7 @@ const MovieDetail = () => {
         {/* 3. Cast Section */}
         {cast.length > 0 && (
           <div className="mt-16 md:mt-24">
-            <h2 className="text-2xl md:text-3xl font-bold text-white border-l-4 border-[var(--premium-color,#B7C7DB)] pl-4 tracking-wide uppercase text-sm md:text-base mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] border-l-4 border-[var(--premium-color,#B7C7DB)] pl-4 tracking-wide uppercase text-sm md:text-base mb-8">
               Pemeran Utama
             </h2>
             <div className="flex flex-wrap justify-center sm:justify-start gap-6 md:gap-8">
@@ -301,10 +301,10 @@ const MovieDetail = () => {
                       </div>
                     )}
                   </div>
-                  <h4 className="text-[11px] sm:text-xs font-bold text-white mb-0.5 line-clamp-2 leading-tight" title={actor.name}>
+                  <h4 className="text-[11px] sm:text-xs font-bold text-[var(--text-primary)] mb-0.5 line-clamp-2 leading-tight" title={actor.name}>
                     {actor.name}
                   </h4>
-                  <p className="text-[10px] sm:text-[11px] text-gray-400 line-clamp-2 leading-tight" title={actor.character}>
+                  <p className="text-[10px] sm:text-[11px] text-[var(--text-muted)] line-clamp-2 leading-tight" title={actor.character}>
                     {actor.character}
                   </p>
                 </div>
@@ -316,7 +316,7 @@ const MovieDetail = () => {
         {/* 4. Similar Movies Section */}
         {similarMovies.length > 0 && (
           <div className="mt-16 md:mt-24">
-            <h2 className="text-2xl md:text-3xl font-bold text-white border-l-4 border-[var(--premium-color,#B7C7DB)] pl-4 tracking-wide uppercase text-sm md:text-base mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] border-l-4 border-[var(--premium-color,#B7C7DB)] pl-4 tracking-wide uppercase text-sm md:text-base mb-8">
               Rekomendasi Serupa
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">

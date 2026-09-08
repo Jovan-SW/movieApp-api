@@ -7,7 +7,7 @@ const Footer = () => {
   const appName = "Revlume"; 
 
   return (
-    <footer className="w-full bg-[#0a0a0a] text-gray-400 border-t border-white/10 pt-16 pb-12 mt-20 relative z-20">
+    <footer className="w-full bg-[var(--surface-primary)] text-[var(--text-secondary)] border-t border-[var(--border-subtle)] pt-16 pb-12 mt-20 relative z-20 transition-colors duration-300">
       <div className="container mx-auto px-6 md:px-12">
         
         {/* Bagian Utama Footer */}
@@ -19,39 +19,39 @@ const Footer = () => {
               <div className="p-2 bg-[var(--primary-color,#3b82f6)] text-white rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.5)]">
                 <FaFilm size={24} />
               </div>
-              <span className="text-2xl font-extrabold tracking-wider text-white">
+              <span className="text-2xl font-extrabold tracking-wider text-[var(--text-primary)]">
                 {appName}
               </span>
             </div>
-            <p className="text-sm md:text-base leading-relaxed max-w-sm text-gray-400">
+            <p className="text-sm md:text-base leading-relaxed max-w-sm text-[var(--text-secondary)]">
               Platform penjelajah film premium berbasis TMDB API. Temukan film trending, bioskop terbaru, dan daftar film favoritmu dengan pengalaman visual yang sinematik.
             </p>
           </div>
 
           {/* Kolom 2: Navigasi Cepat */}
           <div>
-            <h3 className="text-white font-semibold text-base mb-4 tracking-wide uppercase text-xs text-[var(--primary-color,#3b82f6)]">
+            <h3 className="text-[var(--text-primary)] font-semibold text-base mb-4 tracking-wide uppercase text-xs">
               Navigasi
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/" className="hover:text-white transition-colors duration-200">Home</Link>
+                <Link to="/" className="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors duration-200">Home</Link>
               </li>
               <li>
-                <Link to="/movies" className="hover:text-white transition-colors duration-200">Movies</Link>
+                <Link to="/movies" className="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors duration-200">Movies</Link>
               </li>
               <li>
-                <Link to="/watchlist" className="hover:text-white transition-colors duration-200">WatchList</Link>
+                <Link to="/watchlist" className="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors duration-200">WatchList</Link>
               </li>
               <li>
-                <Link to="/profile" className="hover:text-white transition-colors duration-200">Profile</Link>
+                <Link to="/profile" className="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors duration-200">Profile</Link>
               </li>
             </ul>
           </div>
 
           {/* Kolom 3: Sosial Media / Kontak */}
           <div>
-            <h3 className="text-white font-semibold text-base mb-4 tracking-wide uppercase text-xs text-[var(--primary-color,#3b82f6)]">
+            <h3 className="text-[var(--text-primary)] font-semibold text-base mb-4 tracking-wide uppercase text-xs">
               Terhubung
             </h3>
             <div className="flex items-center gap-3">
@@ -60,7 +60,7 @@ const Footer = () => {
                 href="https://instagram.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="p-2.5 bg-white/5 hover:bg-[var(--primary-color,#3b82f6)] text-gray-300 hover:text-white rounded-xl border border-white/10 transition-all duration-300 hover:scale-110"
+                className="p-2.5 bg-[var(--surface-secondary)] hover:bg-[var(--primary-color)] text-[var(--text-secondary)] hover:text-white rounded-xl border border-[var(--border-subtle)] transition-all duration-300 hover:scale-110 shadow-sm"
                 aria-label="Instagram"
               >
                 <FaInstagram size={18} />
@@ -69,14 +69,14 @@ const Footer = () => {
                 href="https://twitter.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="p-2.5 bg-white/5 hover:bg-[var(--primary-color,#3b82f6)] text-gray-300 hover:text-white rounded-xl border border-white/10 transition-all duration-300 hover:scale-110"
+                className="p-2.5 bg-[var(--surface-secondary)] hover:bg-[var(--primary-color)] text-[var(--text-secondary)] hover:text-white rounded-xl border border-[var(--border-subtle)] transition-all duration-300 hover:scale-110 shadow-sm"
                 aria-label="Twitter"
               >
                 <FaTwitter size={18} />
               </a>
               <a 
-                href="mailto:emailmu@example.com"
-                className="p-2.5 bg-white/5 hover:bg-[var(--primary-color,#3b82f6)] text-gray-300 hover:text-white rounded-xl border border-white/10 transition-all duration-300 hover:scale-110"
+                href="mailto:emailmu@example.com" 
+                className="p-2.5 bg-[var(--surface-secondary)] hover:bg-[var(--primary-color)] text-[var(--text-secondary)] hover:text-white rounded-xl border border-[var(--border-subtle)] transition-all duration-300 hover:scale-110 shadow-sm"
                 aria-label="Email"
               >
                 <FaEnvelope size={18} />
@@ -87,11 +87,11 @@ const Footer = () => {
         </div>
 
         {/* Garis Pembatas */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between text-xs md:text-sm text-gray-500 gap-4">
+        <div className="border-t border-[var(--border-subtle)] pt-8 flex flex-col md:flex-row items-center justify-between text-xs md:text-sm text-[var(--text-muted)] gap-4">
           
           {/* Copyright */}
           <p>
-            © {releaseYear} <span className="text-gray-300 font-medium">{appName}</span>. All rights reserved.
+            © {releaseYear} <span className="text-[var(--text-secondary)] font-medium">{appName}</span>. All rights reserved.
           </p>
 
           {/* Info Pencipta Website */}

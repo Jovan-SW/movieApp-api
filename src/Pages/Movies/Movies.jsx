@@ -239,13 +239,13 @@ const Movies = () => {
   const isGenreFilteredSearch = isSearchActive && selectedGenre !== '';
 
   return (
-    <div className="movies-page-container min-h-screen bg-[#0f172a] text-white pb-20">
+    <div className="movies-page-container min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)] pb-20 transition-colors duration-300">
       <main className="movies-content">
-        <header className="movies-header relative w-full pt-24 pb-16 md:pt-36 md:pb-24 bg-gradient-to-b from-blue-900/30 via-[#0f172a]/80 to-[#0f172a] flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)] mb-4 tracking-wide mt-4 md:mt-6">
+        <header className="movies-header relative w-full pt-24 pb-16 md:pt-36 md:pb-24 bg-gradient-to-b from-blue-900/20 via-[var(--background-primary)]/80 to-[var(--background-primary)] flex flex-col items-center justify-center text-center px-4 transition-colors duration-300">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 drop-shadow-[0_5px_5px_rgba(0,0,0,0.25)] mb-4 tracking-wide mt-4 md:mt-6">
             Explore Movies
           </h1>
-          <p className="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto">
+          <p className="text-[var(--text-secondary)] text-sm md:text-lg max-w-2xl mx-auto">
             Find your favorite movies from TMDB.
           </p>
         </header>
@@ -255,38 +255,37 @@ const Movies = () => {
             value={searchTerm}
             onSearch={handleSearch}
             placeholder="Search movie by title..."
-            className="w-full bg-gray-800/80 border border-gray-600 focus:border-cyan-500 rounded-full py-3 md:py-4 px-6 text-white placeholder-gray-400 outline-none transition-all duration-300 backdrop-blur-sm shadow-lg focus:shadow-[0_0_20px_rgba(6,182,212,0.3)]"
           />
         </section>
 
         <section className="filter-section container mx-auto px-4 md:px-8 mb-12 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-          <div className="flex items-center gap-3 bg-gray-800/50 backdrop-blur-md border border-gray-700/60 rounded-xl px-4 py-2.5 w-full md:w-auto hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.25)] transition-all duration-300 group">
-            <label htmlFor="filter-genre" className="text-xs md:text-sm font-semibold uppercase tracking-wider text-cyan-400 shrink-0 group-hover:text-cyan-300">Genre</label>
-            <select id="filter-genre" value={selectedGenre} onChange={handleGenreChange} className="bg-transparent text-white text-sm md:text-base outline-none cursor-pointer w-full py-1 font-medium focus:text-cyan-300">
-              <option value="" className="bg-gray-900 text-gray-300">All Genres</option>
+          <div className="flex items-center gap-3 bg-[var(--surface-primary)] backdrop-blur-md border border-[var(--border-subtle)] rounded-xl px-4 py-2.5 w-full md:w-auto hover:border-[var(--primary-color)]/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] transition-all duration-300 group shadow-sm">
+            <label htmlFor="filter-genre" className="text-xs md:text-sm font-semibold uppercase tracking-wider text-[var(--primary-color)] shrink-0 group-hover:text-[var(--primary-light)]">Genre</label>
+            <select id="filter-genre" value={selectedGenre} onChange={handleGenreChange} className="bg-transparent text-[var(--text-primary)] text-sm md:text-base outline-none cursor-pointer w-full py-1 font-medium focus:text-[var(--primary-color)]">
+              <option value="" className="bg-[var(--surface-primary)] text-[var(--text-secondary)]">All Genres</option>
               {genresList.map((g) => (
-                <option key={g.id} value={g.id} className="bg-gray-900 text-white">{g.name}</option>
+                <option key={g.id} value={g.id} className="bg-[var(--surface-primary)] text-[var(--text-primary)]">{g.name}</option>
               ))}
             </select>
           </div>
 
-          <div className="flex items-center gap-3 bg-gray-800/50 backdrop-blur-md border border-gray-700/60 rounded-xl px-4 py-2.5 w-full md:w-auto hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.25)] transition-all duration-300 group">
-            <label htmlFor="filter-year" className="text-xs md:text-sm font-semibold uppercase tracking-wider text-cyan-400 shrink-0 group-hover:text-cyan-300">Year</label>
-            <select id="filter-year" value={selectedYear} onChange={handleYearChange} className="bg-transparent text-white text-sm md:text-base outline-none cursor-pointer w-full py-1 font-medium focus:text-cyan-300">
-              <option value="" className="bg-gray-900 text-gray-300">All Years</option>
+          <div className="flex items-center gap-3 bg-[var(--surface-primary)] backdrop-blur-md border border-[var(--border-subtle)] rounded-xl px-4 py-2.5 w-full md:w-auto hover:border-[var(--primary-color)]/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] transition-all duration-300 group shadow-sm">
+            <label htmlFor="filter-year" className="text-xs md:text-sm font-semibold uppercase tracking-wider text-[var(--primary-color)] shrink-0 group-hover:text-[var(--primary-light)]">Year</label>
+            <select id="filter-year" value={selectedYear} onChange={handleYearChange} className="bg-transparent text-[var(--text-primary)] text-sm md:text-base outline-none cursor-pointer w-full py-1 font-medium focus:text-[var(--primary-color)]">
+              <option value="" className="bg-[var(--surface-primary)] text-[var(--text-secondary)]">All Years</option>
               {years.map((year) => (
-                <option key={year} value={year} className="bg-gray-900 text-white">{year}</option>
+                <option key={year} value={year} className="bg-[var(--surface-primary)] text-[var(--text-primary)]">{year}</option>
               ))}
             </select>
           </div>
 
-          <div className="flex items-center gap-3 bg-gray-800/50 backdrop-blur-md border border-gray-700/60 rounded-xl px-4 py-2.5 w-full md:w-auto hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.25)] transition-all duration-300 group">
-            <label htmlFor="filter-sort" className="text-xs md:text-sm font-semibold uppercase tracking-wider text-cyan-400 shrink-0 group-hover:text-cyan-300">Sort By</label>
-            <select id="filter-sort" value={sortBy} onChange={handleSortChange} className="bg-transparent text-white text-sm md:text-base outline-none cursor-pointer w-full py-1 font-medium focus:text-cyan-300">
-              <option value="popularity.desc" className="bg-gray-900 text-white">Most Popular</option>
-              <option value="vote_average.desc" className="bg-gray-900 text-white">Highest Rated</option>
-              <option value="primary_release_date.desc" className="bg-gray-900 text-white">Latest Release</option>
-              <option value="title.asc" className="bg-gray-900 text-white">Title (A-Z)</option>
+          <div className="flex items-center gap-3 bg-[var(--surface-primary)] backdrop-blur-md border border-[var(--border-subtle)] rounded-xl px-4 py-2.5 w-full md:w-auto hover:border-[var(--primary-color)]/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] transition-all duration-300 group shadow-sm">
+            <label htmlFor="filter-sort" className="text-xs md:text-sm font-semibold uppercase tracking-wider text-[var(--primary-color)] shrink-0 group-hover:text-[var(--primary-light)]">Sort By</label>
+            <select id="filter-sort" value={sortBy} onChange={handleSortChange} className="bg-transparent text-[var(--text-primary)] text-sm md:text-base outline-none cursor-pointer w-full py-1 font-medium focus:text-[var(--primary-color)]">
+              <option value="popularity.desc" className="bg-[var(--surface-primary)] text-[var(--text-primary)]">Most Popular</option>
+              <option value="vote_average.desc" className="bg-[var(--surface-primary)] text-[var(--text-primary)]">Highest Rated</option>
+              <option value="primary_release_date.desc" className="bg-[var(--surface-primary)] text-[var(--text-primary)]">Latest Release</option>
+              <option value="title.asc" className="bg-[var(--surface-primary)] text-[var(--text-primary)]">Title (A-Z)</option>
             </select>
           </div>
         </section>
@@ -323,20 +322,20 @@ const Movies = () => {
           <nav className="flex items-center justify-center gap-3 md:gap-4 mt-16 mb-12 px-4" aria-label="Pagination">
             <button
               type="button"
-              className="px-5 py-2.5 md:px-7 md:py-3 bg-gray-800/60 border border-gray-700/80 text-gray-200 rounded-xl font-medium tracking-wide transition-all duration-300 hover:bg-cyan-600/20 hover:text-cyan-400 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gray-800/60 disabled:hover:text-gray-200 disabled:hover:border-gray-700/80 disabled:hover:shadow-none"
+              className="px-5 py-2.5 md:px-7 md:py-3 bg-[var(--surface-primary)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-xl font-medium tracking-wide transition-all duration-300 hover:bg-[var(--primary-color)]/15 hover:text-[var(--primary-color)] hover:border-[var(--primary-color)]/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.25)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[var(--surface-primary)] disabled:hover:text-[var(--text-muted)] disabled:hover:border-[var(--border-subtle)] disabled:hover:shadow-none shadow-sm"
               onClick={() => handlePageChange(page - 1)}
               disabled={page === 1}
             >
               Previous
             </button>
 
-            <span className="text-sm md:text-base font-semibold text-gray-300 px-4 py-2 bg-gray-900/60 rounded-lg border border-gray-800 backdrop-blur-sm shadow-inner">
+            <span className="text-sm md:text-base font-semibold text-[var(--text-secondary)] px-4 py-2 bg-[var(--surface-secondary)] rounded-lg border border-[var(--border-subtle)] backdrop-blur-sm shadow-inner">
               Halaman {page} / {totalPages}
             </span>
 
             <button
               type="button"
-              className="px-5 py-2.5 md:px-7 md:py-3 bg-gray-800/60 border border-gray-700/80 text-gray-200 rounded-xl font-medium tracking-wide transition-all duration-300 hover:bg-cyan-600/20 hover:text-cyan-400 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gray-800/60 disabled:hover:text-gray-200 disabled:hover:border-gray-700/80 disabled:hover:shadow-none"
+              className="px-5 py-2.5 md:px-7 md:py-3 bg-[var(--surface-primary)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-xl font-medium tracking-wide transition-all duration-300 hover:bg-[var(--primary-color)]/15 hover:text-[var(--primary-color)] hover:border-[var(--primary-color)]/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.25)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[var(--surface-primary)] disabled:hover:text-[var(--text-muted)] disabled:hover:border-[var(--border-subtle)] disabled:hover:shadow-none shadow-sm"
               onClick={() => handlePageChange(page + 1)}
               disabled={page === totalPages}
             >

@@ -5,6 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/src/assets/favicon.jpeg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title> RevLume - Discover Movies</title>
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('revlume_theme');
+          var theme = saved === 'light' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.classList.add(theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
   </head>
 
   <body>

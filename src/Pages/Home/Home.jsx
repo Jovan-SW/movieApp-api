@@ -106,7 +106,7 @@ function Home() {
 
   // ─── Main render ───────────────────────────────────────────
   return (
-    <main className="min-h-screen bg-[var(--background-color,#0a0a0a)] text-gray-100 pb-24 font-sans selection:bg-[var(--primary-color,#3b82f6)] selection:text-white">
+    <main className="min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)] pb-24 font-sans selection:bg-[var(--primary-color)] selection:text-white transition-colors duration-300">
       
       {/* SECTION 1 — Hero Slider (Sudah full screen) */}
       <HeroSlider />
