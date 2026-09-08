@@ -87,30 +87,30 @@ const HeroSlider = () => {
                 alt={movie.title}
                 className="w-full h-full object-cover object-top"
               />
-              {/* Gradient disesuaikan agar lebih gelap di bagian bawah untuk transisi halus saat di-scroll */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0f0f11] via-[#0f0f11]/70 to-transparent"></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f11] via-[#0f0f11]/20 to-transparent"></div>
+              {/* Gradient disesuaikan agar menyatu mulus di light theme dan dark theme */}
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100/90 to-white/0 dark:from-[#05070C] dark:via-[#05070C]/80 dark:to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-200 via-gray-100/50 to-transparent dark:from-[#05070C] dark:via-[#05070C]/30 dark:to-transparent"></div>
             </div>
 
             {/* Content Container - Dibuat rata kiri dengan max-width yang lebih besar karena poster dihilangkan */}
             <div className="absolute inset-0 container mx-auto px-6 md:px-12 flex items-center justify-start">
               
-              <div className="w-full max-w-3xl text-white flex flex-col items-start gap-5 transform transition-all duration-700 translate-y-0 opacity-100 mt-16">
+              <div className="w-full max-w-3xl text-[var(--text-primary)] flex flex-col items-start gap-5 transform transition-all duration-700 translate-y-0 opacity-100 mt-16">
                 
                 {/* Rating & Year */}
                 <div className="flex items-center gap-4 text-sm font-medium tracking-wider">
-                  <span className="flex items-center gap-1.5 bg-yellow-500/20 text-yellow-400 px-3 py-1.5 rounded-full backdrop-blur-sm border border-yellow-500/30">
+                  <span className="flex items-center gap-1.5 bg-amber-500/15 text-amber-800 dark:bg-yellow-500/20 dark:text-yellow-400 px-3 py-1.5 rounded-full backdrop-blur-sm border border-amber-500/30 dark:border-yellow-500/30 font-bold shadow-sm">
                     <Star size={16} className="fill-current" />
                     {movie.vote_average.toFixed(1)}
                   </span>
-                  <span className="flex items-center gap-1.5 text-gray-300 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                  <span className="flex items-center gap-1.5 text-slate-800 dark:text-gray-200 bg-slate-200/90 dark:bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm border border-slate-300 dark:border-white/10 font-semibold shadow-sm">
                     <Calendar size={16} />
                     {movie.release_date.split('-')[0]}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight drop-shadow-2xl text-balance">
+                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight text-[var(--text-primary)] drop-shadow-sm dark:drop-shadow-2xl text-balance">
                   {movie.title}
                 </h1>
 
@@ -119,7 +119,7 @@ const HeroSlider = () => {
                   {movie.genre_ids.slice(0, 4).map((id) => (
                     <span
                       key={id}
-                      className="px-4 py-1.5 text-sm font-medium bg-white/10 text-gray-100 rounded-lg backdrop-blur-md border border-white/10"
+                      className="px-4 py-1.5 text-sm font-bold bg-cyan-100 text-cyan-900 border border-cyan-400/60 dark:bg-white/10 dark:text-gray-100 dark:border-white/10 rounded-lg backdrop-blur-md shadow-sm"
                     >
                       {genres[id]}
                     </span>
@@ -127,14 +127,14 @@ const HeroSlider = () => {
                 </div>
 
                 {/* Overview */}
-                <p className="mt-4 text-gray-300 text-base md:text-lg leading-relaxed line-clamp-3 md:line-clamp-4 text-shadow-sm">
+                <p className="mt-4 text-[var(--text-secondary)] text-base md:text-lg leading-relaxed line-clamp-3 md:line-clamp-4 font-normal">
                   {movie.overview}
                 </p>
 
                 {/* Call to Action Button */}
                 <button 
                   onClick={() => navigate(`/movie/${movie.id}`)}
-                  className="mt-6 flex items-center gap-3 bg-[var(--primary-color,#3b82f6)] hover:bg-[var(--primary-hover,#2563eb)] text-white px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]"
+                  className="mt-6 flex items-center gap-3 bg-[var(--primary-color,#2563eb)] hover:bg-[var(--primary-hover,#1d4ed8)] text-white px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]"
                 >
                   <Info size={22} />
                   <span className="text-lg">More Info</span>
@@ -149,14 +149,14 @@ const HeroSlider = () => {
       {/* Kontrol Navigasi */}
       <button
         onClick={prevSlide}
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/40 hover:bg-black/80 text-white rounded-full backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/90 hover:bg-white text-slate-800 dark:bg-black/40 dark:hover:bg-black/80 dark:text-white rounded-full backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
       >
         <ChevronLeft size={36} />
       </button>
       
       <button
         onClick={nextSlide}
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/40 hover:bg-black/80 text-white rounded-full backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/90 hover:bg-white text-slate-800 dark:bg-black/40 dark:hover:bg-black/80 dark:text-white rounded-full backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
       >
         <ChevronRight size={36} />
       </button>
@@ -169,8 +169,8 @@ const HeroSlider = () => {
             onClick={() => setCurrentIndex(index)}
             className={`transition-all duration-300 rounded-full ${
               index === currentIndex 
-                ? 'w-10 h-2.5 bg-[var(--primary-color,#3b82f6)] shadow-[0_0_12px_rgba(59,130,246,0.8)]' 
-                : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/80'
+                ? 'w-10 h-2.5 bg-[var(--primary-color,#2563eb)] shadow-[0_0_12px_rgba(37,99,235,0.8)]' 
+                : 'w-2.5 h-2.5 bg-slate-400/70 hover:bg-slate-600 dark:bg-white/40 dark:hover:bg-white/80'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -178,7 +178,7 @@ const HeroSlider = () => {
       </div>
       
       {/* Efek visual fade ke bawah untuk menyatu mulus saat di scroll */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[var(--background-color,#0a0a0a)] to-transparent pointer-events-none z-10"></div>
+      <div className="absolute bottom-0 left-0 w-full h-36 bg-gradient-to-t from-[var(--background-primary)] to-transparent pointer-events-none z-10"></div>
     </div>
   );
 };

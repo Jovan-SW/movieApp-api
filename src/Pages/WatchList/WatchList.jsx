@@ -93,7 +93,7 @@ export default function Watchlist() {
 
   /* ─── LOGGED-IN VIEW ─── */
   return (
-    <div className="min-h-screen pt-24 pb-20 bg-[var(--background-primary,#05070C)] text-white px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pt-24 pb-20 bg-[var(--background-primary,#05070C)] text-[var(--text-primary)] px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="container mx-auto max-w-7xl">
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-8">
           My Watchlist
@@ -110,7 +110,7 @@ export default function Watchlist() {
         )}
 
         {!loading && !error && items.length === 0 && (
-          <div className="text-center py-24 text-gray-400">
+          <div className="text-center py-24 text-[var(--text-secondary)]">
             <p className="mb-4">Belum ada film di watchlist kamu.</p>
             <Link
               to="/"
@@ -136,7 +136,7 @@ export default function Watchlist() {
                 <button
                   onClick={() => handleRemove(item.movie_id)}
                   disabled={removingId === item.movie_id}
-                  className="absolute top-2 right-2 z-10 bg-black/70 hover:bg-red-600/90 text-white text-xs font-semibold px-2.5 py-1 rounded-lg opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity disabled:opacity-50"
+                  className="absolute top-2 right-2 z-10 bg-red-600 hover:bg-red-700 text-white border border-red-700 shadow-md dark:bg-red-900/90 dark:hover:bg-red-800 dark:border-red-700/60 text-xs font-semibold px-2.5 py-1 rounded-lg opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity disabled:opacity-50"
                 >
                   {removingId === item.movie_id ? '...' : 'Hapus'}
                 </button>

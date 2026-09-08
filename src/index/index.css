@@ -233,9 +233,9 @@
   /* =========================================
      SECONDARY — SLATE
      ========================================= */
-  --secondary-color: #475569;
-  --secondary-light: #64748B;
-  --secondary-dark: #334155;
+  --secondary-color: #334155;
+  --secondary-light: #475569;
+  --secondary-dark: #1E293B;
 
   /* =========================================
      PREMIUM — ROYAL ACCENT
@@ -256,13 +256,16 @@
   --premium-dark: #1E293B;
 
   /* =========================================
-     TEXT (LIGHT THEME)
+     TEXT (LIGHT THEME) — MAXIMUM CONTRAST
+     Header & Body: Hitam Pekat (#000000)
+     Teks Sekunder: Slate Grey (#334155)
+     Teks Muted / Tertier: Slate (#475569)
      ========================================= */
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-tertiary: #64748B;
-  --text-muted: #94A3B8;
-  --text-disabled: #CBD5E1;
+  --text-primary: #000000;
+  --text-secondary: #334155;
+  --text-tertiary: #475569;
+  --text-muted: #475569;
+  --text-disabled: #64748B;
 
   --text-white: #FFFFFF;
   --text-black: #000000;
@@ -317,6 +320,20 @@ body {
   color: var(--text-primary);
   transition: background-color 0.35s ease, color 0.35s ease;
   min-height: 100vh;
+}
+
+/* High Contrast Light Theme Global Typography */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6 {
+  color: #000000;
+}
+
+[data-theme="light"] body {
+  color: #000000;
 }
 
 /* Futuristic Filter Button Hover Effect */

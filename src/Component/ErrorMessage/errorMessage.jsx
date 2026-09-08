@@ -39,12 +39,12 @@ const ErrorMessage = ({
         </div>
         
         {/* Heading */}
-        <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
+        <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-3 tracking-tight">
           Something went wrong
         </h3>
         
         {/* Error Message */}
-        <p className="text-gray-400 text-sm sm:text-base mb-8 leading-relaxed">
+        <p className="text-[var(--text-secondary)] text-sm sm:text-base mb-8 leading-relaxed">
           {message}
         </p>
         
@@ -54,7 +54,7 @@ const ErrorMessage = ({
             if (onRetry) onRetry();
             window.location.reload();
           }}
-          className="group relative flex items-center justify-center gap-2.5 w-full sm:w-auto px-6 sm:px-8 py-3.5 bg-[var(--primary-color,theme(colors.purple.600))] hover:bg-[var(--primary-600,theme(colors.purple.500))] text-white rounded-xl font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] active:scale-95 overflow-hidden isolate mt-2"
+          className="group relative flex items-center justify-center gap-2.5 w-full sm:w-auto px-6 sm:px-8 py-3.5 bg-[var(--primary-color,#2563eb)] hover:bg-[var(--primary-hover,#1d4ed8)] text-white rounded-xl font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(37,99,235,0.35)] active:scale-95 overflow-hidden isolate mt-2"
         >
           {/* Hover reflection effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out z-10"></div>

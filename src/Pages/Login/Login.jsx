@@ -53,7 +53,7 @@ const Login = () => {
         <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none"></div>
 
         <div className="relative z-10 text-center">
-          <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-200 tracking-tight">
+          <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold text-[var(--text-primary)] tracking-tight">
             Welcome
           </h2>
           <p className="mt-3 text-sm text-[var(--text-secondary)]">
@@ -82,7 +82,7 @@ const Login = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none relative block w-full px-4 py-3 bg-[var(--background-primary)] border border-[var(--border-subtle)] placeholder-gray-500 text-[var(--text-primary)] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all sm:text-sm"
+                className="appearance-none relative block w-full px-4 py-3 bg-[var(--background-primary)] border border-[var(--border-subtle)] placeholder-[var(--text-muted)] text-[var(--text-primary)] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all sm:text-sm"
                 placeholder="Enter your email"
               />
             </div>
@@ -101,13 +101,13 @@ const Login = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none relative block w-full px-4 py-3 pr-12 bg-[var(--background-primary)] border border-[var(--border-subtle)] placeholder-gray-500 text-[var(--text-primary)] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all sm:text-sm"
+                  className="appearance-none relative block w-full px-4 py-3 pr-12 bg-[var(--background-primary)] border border-[var(--border-subtle)] placeholder-[var(--text-muted)] text-[var(--text-primary)] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all sm:text-sm"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-blue-400 transition-colors focus:outline-none"
+                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-[var(--text-secondary)] hover:text-blue-500 transition-colors focus:outline-none"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (

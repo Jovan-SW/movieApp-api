@@ -11,11 +11,19 @@
 [data-theme="light"],
 .light {
   --mc-bg-color: #ffffff;
-  --mc-text-color: #0f172a;
-  --mc-text-muted: #475569;
-  --mc-accent-color: #0284c7;
-  --mc-glass-bg: rgba(255, 255, 255, 0.96);
-  --mc-glass-border: rgba(0, 0, 0, 0.08);
+  --mc-text-color: #000000;
+  --mc-text-muted: #334155;
+  --mc-accent-color: #2563eb;
+  --mc-glass-bg: rgba(255, 255, 255, 0.98);
+  --mc-glass-border: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .mc-synopsis-container p {
+  color: #000000 !important;
+}
+
+[data-theme="light"] .mc-director-text {
+  color: #334155 !important;
 }
 
 /* Custom Scrollbar untuk kontainer sinopsis */

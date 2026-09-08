@@ -207,7 +207,7 @@ const MovieCard = ({ movie }) => {
               {title}
             </h4>
             <button 
-              className="p-1 rounded-full bg-white/10 hover:bg-red-500/30 text-white hover:text-red-400 transition-colors flex-shrink-0" 
+              className="p-1 rounded-full bg-slate-200/80 dark:bg-white/10 hover:bg-red-500/20 dark:hover:bg-red-500/30 text-slate-700 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors flex-shrink-0" 
               onClick={toggleInfo}
               aria-label="Close info"
             >
@@ -220,27 +220,27 @@ const MovieCard = ({ movie }) => {
 
           {/* Rating, Year & Extra Metadata */}
           <div className="flex items-center flex-wrap gap-2 mb-2">
-            <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-0.5 rounded-full border border-yellow-500/30">
-              <svg className="w-3 h-3 fill-current text-yellow-400" viewBox="0 0 24 24">
+            <div className="flex items-center gap-1 bg-amber-500/15 dark:bg-yellow-500/20 px-2 py-0.5 rounded-full border border-amber-500/30 dark:border-yellow-500/30 font-bold">
+              <svg className="w-3 h-3 fill-current text-amber-700 dark:text-yellow-400" viewBox="0 0 24 24">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
-              <span className="text-xs font-bold text-yellow-300">{rating}</span>
+              <span className="text-xs font-bold text-amber-800 dark:text-yellow-300">{rating}</span>
             </div>
 
             {year && (
-              <span className="px-2 py-0.5 bg-white/10 border border-white/10 rounded-md text-[10px] sm:text-xs font-medium text-gray-200">
+              <span className="px-2 py-0.5 bg-slate-200/90 dark:bg-white/10 border border-slate-300 dark:border-white/10 rounded-md text-[10px] sm:text-xs font-semibold text-slate-800 dark:text-gray-200">
                 {year}
               </span>
             )}
             
             {minAge && (
-              <span className="px-2 py-0.5 bg-blue-900/60 border border-blue-500/40 rounded-md text-[10px] sm:text-xs font-semibold text-blue-200">
+              <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/60 border border-blue-400/60 dark:border-blue-500/40 rounded-md text-[10px] sm:text-xs font-bold text-blue-800 dark:text-blue-200">
                 {minAge}
               </span>
             )}
 
             {duration && (
-              <span className="px-2 py-0.5 bg-white/10 border border-white/10 rounded-md text-[10px] sm:text-xs font-medium text-gray-300">
+              <span className="px-2 py-0.5 bg-slate-200/90 dark:bg-white/10 border border-slate-300 dark:border-white/10 rounded-md text-[10px] sm:text-xs font-semibold text-slate-800 dark:text-gray-300">
                 {duration}
               </span>
             )}
@@ -251,7 +251,7 @@ const MovieCard = ({ movie }) => {
             {genres.map((g, idx) => (
               <span 
                 key={idx}
-                className="px-2 py-0.5 bg-cyan-500/15 border border-cyan-400/30 rounded-md text-[10px] sm:text-xs font-semibold text-cyan-300 tracking-tight"
+                className="px-2 py-0.5 bg-cyan-100 dark:bg-cyan-500/15 border border-cyan-400/60 dark:border-cyan-400/30 rounded-md text-[10px] sm:text-xs font-bold text-cyan-900 dark:text-cyan-300 tracking-tight"
               >
                 {g}
               </span>
@@ -259,15 +259,15 @@ const MovieCard = ({ movie }) => {
           </div>
 
           {director && (
-            <p className="text-[11px] text-gray-400 mb-2 truncate">
-              Sutradara: <span className="text-gray-200 font-medium">{director}</span>
+            <p className="text-[11px] text-slate-600 dark:text-gray-400 mb-2 truncate">
+              Sutradara: <span className="text-slate-900 dark:text-gray-200 font-bold">{director}</span>
             </p>
           )}
         </div>
 
         {/* Synopsis Area - Responsif dengan scrollbar halus agar tidak keluar dari kartu */}
         <div className="mc-synopsis-container flex-grow overflow-y-auto my-1 pr-1.5 max-h-[120px] sm:max-h-[150px] md:max-h-[180px]">
-          <p className="text-[11px] sm:text-xs text-gray-300 leading-relaxed font-normal break-words">
+          <p className="text-[11px] sm:text-xs text-slate-800 dark:text-gray-300 leading-relaxed font-normal break-words">
             {synopsis}
           </p>
         </div>

@@ -242,10 +242,10 @@ const Movies = () => {
     <div className="movies-page-container min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)] pb-20 transition-colors duration-300">
       <main className="movies-content">
         <header className="movies-header relative w-full pt-24 pb-16 md:pt-36 md:pb-24 bg-gradient-to-b from-blue-900/20 via-[var(--background-primary)]/80 to-[var(--background-primary)] flex flex-col items-center justify-center text-center px-4 transition-colors duration-300">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 drop-shadow-[0_5px_5px_rgba(0,0,0,0.25)] mb-4 tracking-wide mt-4 md:mt-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[var(--text-primary)] dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-cyan-400 dark:to-blue-600 drop-shadow-[0_5px_5px_rgba(0,0,0,0.15)] mb-4 tracking-wide mt-4 md:mt-6">
             Explore Movies
           </h1>
-          <p className="text-[var(--text-secondary)] text-sm md:text-lg max-w-2xl mx-auto">
+          <p className="text-[var(--text-secondary)] text-sm md:text-lg max-w-2xl mx-auto font-medium">
             Find your favorite movies from TMDB.
           </p>
         </header>
@@ -291,7 +291,7 @@ const Movies = () => {
         </section>
 
         {!isLoading && !error && displayedMovies.length > 0 && (
-          <p className="results-summary">
+          <p className="results-summary text-center text-sm md:text-base text-[var(--text-secondary)] font-medium my-4">
             {isGenreFilteredSearch
               ? `Menampilkan ${displayedMovies.length} film (genre difilter) dari ${movies.length} hasil di halaman ${page}`
               : `Halaman ${page} dari ${totalPages} — ${totalResults.toLocaleString('id-ID')} total hasil`}
@@ -304,7 +304,7 @@ const Movies = () => {
           ) : error ? (
             <ErrorMessage message={error} onRetry={() => setRetryTrigger((prev) => prev + 1)} />
           ) : displayedMovies.length === 0 ? (
-            <div className="empty-state">
+            <div className="empty-state text-center py-16 text-[var(--text-secondary)] font-medium">
               <p>
                 {isGenreFilteredSearch
                   ? `Tidak ada film "${debouncedQuery}" di halaman ini yang cocok dengan genre pilihan. Coba halaman berikutnya.`

@@ -153,7 +153,7 @@ const MovieDetail = () => {
 
   if (!movie) {
     return (
-      <div className="min-h-screen bg-[var(--background-primary,#05070C)] flex items-center justify-center text-white">
+      <div className="min-h-screen bg-[var(--background-primary,#05070C)] flex items-center justify-center text-[var(--text-primary)]">
         Film tidak ditemukan.
       </div>
     );
@@ -203,21 +203,21 @@ const MovieDetail = () => {
             </h1>
             
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6 text-sm text-[var(--text-secondary)]">
-              <div className="flex items-center gap-1.5 bg-yellow-500/20 px-3 py-1 rounded-full border border-yellow-500/30">
-                <svg className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+              <div className="flex items-center gap-1.5 bg-amber-500/15 dark:bg-yellow-500/20 px-3 py-1 rounded-full border border-amber-500/30 dark:border-yellow-500/30">
+                <svg className="w-4 h-4 text-amber-700 dark:text-yellow-400 fill-current" viewBox="0 0 24 24">
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
-                <span className="font-bold text-yellow-400">{movie.rating}</span>
+                <span className="font-bold text-amber-800 dark:text-yellow-400">{movie.rating}</span>
               </div>
               
               {movie.year && (
-                <span className="bg-white/10 px-3 py-1 rounded-full font-medium">
+                <span className="bg-slate-200/90 dark:bg-white/10 text-slate-800 dark:text-gray-200 border border-slate-300 dark:border-white/10 px-3 py-1 rounded-full font-semibold">
                   {movie.year}
                 </span>
               )}
               
               {movie.duration && (
-                <span className="bg-white/10 px-3 py-1 rounded-full font-medium">
+                <span className="bg-slate-200/90 dark:bg-white/10 text-slate-800 dark:text-gray-200 border border-slate-300 dark:border-white/10 px-3 py-1 rounded-full font-semibold">
                   {movie.duration}m
                 </span>
               )}
@@ -229,7 +229,7 @@ const MovieDetail = () => {
                 {movie.genres.map((g, idx) => (
                   <span 
                     key={idx} 
-                    className="px-4 py-1.5 bg-cyan-900/40 text-cyan-300 text-sm font-semibold rounded-full border border-cyan-700/50"
+                    className="px-4 py-1.5 bg-cyan-100 text-cyan-900 border border-cyan-400/60 dark:bg-cyan-900/40 dark:text-cyan-300 dark:border-cyan-700/50 text-sm font-bold rounded-full shadow-sm"
                   >
                     {g}
                   </span>
@@ -253,8 +253,8 @@ const MovieDetail = () => {
                   disabled={watchlistLoading || watchlistChecking}
                   className={`px-8 py-3 font-bold rounded-xl border transition-all hover:scale-105 disabled:opacity-60 disabled:hover:scale-100 flex items-center gap-2 ${
                     inWatchlist
-                      ? 'bg-red-500/10 hover:bg-red-500/20 text-red-300 border-red-500/30'
-                      : 'bg-white/10 hover:bg-white/20 text-white border-white/10'
+                      ? 'bg-red-600 hover:bg-red-700 text-white border-red-700 shadow-md shadow-red-600/25 dark:bg-red-900/90 dark:hover:bg-red-800 dark:text-white dark:border-red-700/60 dark:shadow-[0_0_20px_rgba(153,27,27,0.4)]'
+                      : 'bg-blue-600 hover:bg-blue-700 text-white border-blue-700 shadow-md shadow-blue-600/25 dark:bg-[var(--primary-color,#2563eb)] dark:hover:bg-[var(--primary-hover,#1d4ed8)] dark:text-white dark:border-transparent dark:shadow-[0_0_20px_rgba(37,99,235,0.35)]'
                   }`}
                 >
                   {watchlistLoading ? (
@@ -279,7 +279,7 @@ const MovieDetail = () => {
         {/* 3. Cast Section */}
         {cast.length > 0 && (
           <div className="mt-16 md:mt-24">
-            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] border-l-4 border-[var(--premium-color,#B7C7DB)] pl-4 tracking-wide uppercase text-sm md:text-base mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] border-l-4 border-[var(--primary-color,#2563eb)] pl-4 tracking-wide uppercase text-sm md:text-base mb-8">
               Pemeran Utama
             </h2>
             <div className="flex flex-wrap justify-center sm:justify-start gap-6 md:gap-8">
@@ -304,7 +304,7 @@ const MovieDetail = () => {
                   <h4 className="text-[11px] sm:text-xs font-bold text-[var(--text-primary)] mb-0.5 line-clamp-2 leading-tight" title={actor.name}>
                     {actor.name}
                   </h4>
-                  <p className="text-[10px] sm:text-[11px] text-[var(--text-muted)] line-clamp-2 leading-tight" title={actor.character}>
+                  <p className="text-[10px] sm:text-[11px] text-[var(--text-secondary)] font-medium line-clamp-2 leading-tight" title={actor.character}>
                     {actor.character}
                   </p>
                 </div>
@@ -316,7 +316,7 @@ const MovieDetail = () => {
         {/* 4. Similar Movies Section */}
         {similarMovies.length > 0 && (
           <div className="mt-16 md:mt-24">
-            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] border-l-4 border-[var(--premium-color,#B7C7DB)] pl-4 tracking-wide uppercase text-sm md:text-base mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] border-l-4 border-[var(--primary-color,#2563eb)] pl-4 tracking-wide uppercase text-sm md:text-base mb-8">
               Rekomendasi Serupa
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">

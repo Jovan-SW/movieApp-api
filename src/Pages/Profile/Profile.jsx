@@ -116,15 +116,15 @@ export default function Profile() {
           </h1>
 
           {/* User ID */}
-          <p className="relative mt-1 text-xs text-[var(--text-secondary)] font-mono break-all opacity-60">
+          <p className="relative mt-1 text-xs text-[var(--text-secondary)] font-mono break-all">
             ID: {user.id}
           </p>
 
           {/* Joined date */}
           {joinedAt && (
             <p className="relative mt-3 text-sm text-[var(--text-secondary)]">
-              <span className="opacity-60">Member since</span>{' '}
-              <span className="font-medium text-[var(--text-primary)]">{joinedAt}</span>
+              <span>Member since</span>{' '}
+              <span className="font-semibold text-[var(--text-primary)]">{joinedAt}</span>
             </p>
           )}
         </div>
@@ -132,20 +132,20 @@ export default function Profile() {
         {/* ─── Account Details Card ─── */}
         <div className="bg-[var(--background-secondary)] rounded-2xl border border-[var(--border-subtle)] divide-y divide-[var(--border-subtle)] shadow-lg overflow-hidden">
           <div className="px-5 py-4 sm:px-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--text-secondary)] opacity-50 mb-0.5">Email</p>
-            <p className="text-sm sm:text-base text-[var(--text-primary)] font-medium break-all">{user.email}</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-secondary)] mb-0.5">Email</p>
+            <p className="text-sm sm:text-base text-[var(--text-primary)] font-semibold break-all">{user.email}</p>
           </div>
           <div className="px-5 py-4 sm:px-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--text-secondary)] opacity-50 mb-0.5">Account Status</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-secondary)] mb-0.5">Account Status</p>
             <div className="flex items-center gap-2 mt-0.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-              <p className="text-sm sm:text-base text-emerald-400 font-medium">Active</p>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
+              <p className="text-sm sm:text-base text-emerald-600 dark:text-emerald-400 font-semibold">Active</p>
             </div>
           </div>
           {joinedAt && (
             <div className="px-5 py-4 sm:px-6">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--text-secondary)] opacity-50 mb-0.5">Member Since</p>
-              <p className="text-sm sm:text-base text-[var(--text-primary)] font-medium">{joinedAt}</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-secondary)] mb-0.5">Member Since</p>
+              <p className="text-sm sm:text-base text-[var(--text-primary)] font-semibold">{joinedAt}</p>
             </div>
           )}
         </div>

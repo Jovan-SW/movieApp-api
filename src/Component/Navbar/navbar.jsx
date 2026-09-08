@@ -39,16 +39,17 @@ const Navbar = () => {
           gap: 0px;
           text-decoration: none;
           outline: none;
+          line-height: 1;
         }
 
-        .revlume-logo .logo-text {
+        .revlume-logo .logo-rev {
           font-size: clamp(1.35rem, 3.5vw, 1.75rem);
           font-weight: 900;
           letter-spacing: -0.04em;
           line-height: 1;
           position: relative;
 
-          /* 3D gradient */
+          /* 3D Blue Gradient */
           background: linear-gradient(
             145deg,
             #93c5fd 0%,
@@ -62,47 +63,98 @@ const Navbar = () => {
           -webkit-text-fill-color: transparent;
           background-clip: text;
 
-          /* 3D text shadow illusion */
           filter:
             drop-shadow(0 1px 0px rgba(29, 78, 216, 0.9))
             drop-shadow(0 2px 0px rgba(29, 78, 216, 0.7))
             drop-shadow(0 3px 0px rgba(29, 78, 216, 0.4))
-            drop-shadow(0 6px 18px rgba(59, 130, 246, 0.55))
-            drop-shadow(0 12px 32px rgba(96, 165, 250, 0.25));
+            drop-shadow(0 6px 18px rgba(59, 130, 246, 0.55));
 
-          transition: filter 0.35s ease, transform 0.35s ease, letter-spacing 0.35s ease;
+          transition: filter 0.35s ease, transform 0.35s ease;
           transform-style: preserve-3d;
         }
 
+        /* "lume" is pure text with NO background to guarantee zero gray box */
         .revlume-logo .logo-lume {
-          -webkit-text-fill-color: transparent;
+          font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+          font-weight: 900;
+          letter-spacing: -0.04em;
+          line-height: 1;
+          position: relative;
+          color: #f8fafc;
+          background: none !important;
+          -webkit-background-clip: unset !important;
+          background-clip: unset !important;
+          -webkit-text-fill-color: currentColor !important;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+          transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.35s ease;
+        }
+
+        /* Light Theme Logo Overrides */
+        [data-theme="light"] .revlume-logo .logo-rev {
           background: linear-gradient(
-            145deg,
-            #f8fafc 0%,
-            #e2e8f0 30%,
-            #cbd5e1 60%,
-            #f1f5f9 100%
+            135deg,
+            #1d4ed8 0%,
+            #2563eb 50%,
+            #3b82f6 100%
           );
-          -webkit-background-clip: text;
-          background-clip: text;
-          filter:
-            drop-shadow(0 1px 0px rgba(255,255,255,0.35))
-            drop-shadow(0 2px 0px rgba(148,163,184,0.5))
-            drop-shadow(0 3px 0px rgba(71,85,105,0.4));
+          -webkit-background-clip: text !important;
+          background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          filter: drop-shadow(0 1px 2px rgba(29, 78, 216, 0.25));
         }
 
         [data-theme="light"] .revlume-logo .logo-lume {
-          background: linear-gradient(
-            145deg,
-            #1e293b 0%,
-            #334155 30%,
-            #475569 60%,
-            #1e293b 100%
-          );
+          color: #000000 !important;
+          background: none !important;
+          -webkit-background-clip: unset !important;
+          background-clip: unset !important;
+          -webkit-text-fill-color: #000000 !important;
+          text-shadow: none !important;
+          filter: none !important;
+        }
+
+        .revlume-logo:hover .logo-rev,
+        .revlume-logo:hover .logo-lume {
+          transform: translateY(-1px);
+        }
+
+        .revlume-logo:hover .logo-rev {
           filter:
-            drop-shadow(0 1px 0px rgba(255,255,255,0.9))
-            drop-shadow(0 2px 0px rgba(148,163,184,0.3))
-            drop-shadow(0 3px 0px rgba(71,85,105,0.2));
+            drop-shadow(0 1px 0px rgba(29, 78, 216, 1))
+            drop-shadow(0 2px 0px rgba(29, 78, 216, 0.8))
+            drop-shadow(0 6px 20px rgba(59, 130, 246, 0.8));
+        }
+
+        [data-theme="light"] .revlume-logo:hover .logo-rev {
+          filter: drop-shadow(0 2px 10px rgba(37, 99, 235, 0.4));
+        }
+
+        /* Light Theme Nav Links & Buttons — High Contrast Slate */
+        [data-theme="light"] .nav-link-desktop {
+          color: #334155;
+        }
+
+        [data-theme="light"] .nav-link-desktop:hover,
+        [data-theme="light"] .nav-link-desktop.active-link {
+          color: #1d4ed8;
+          background: rgba(37, 99, 235, 0.08);
+        }
+
+        [data-theme="light"] .nav-link-mobile {
+          color: #334155;
+        }
+
+        [data-theme="light"] .nav-link-mobile:hover,
+        [data-theme="light"] .nav-link-mobile.active-link {
+          color: #1d4ed8;
+          background: rgba(37, 99, 235, 0.08);
+        }
+
+        [data-theme="light"] .avatar-initials {
+          background: linear-gradient(135deg, #1d4ed8, #2563eb);
+          -webkit-background-clip: text !important;
+          background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
         }
 
         /* ─── Theme Toggle Button ─── */
@@ -142,48 +194,6 @@ const Navbar = () => {
           }
         }
 
-        .revlume-logo:hover .logo-text {
-          letter-spacing: -0.025em;
-          filter:
-            drop-shadow(0 1px 0px rgba(29, 78, 216, 1))
-            drop-shadow(0 2px 0px rgba(29, 78, 216, 0.8))
-            drop-shadow(0 4px 0px rgba(29, 78, 216, 0.5))
-            drop-shadow(0 8px 24px rgba(59, 130, 246, 0.8))
-            drop-shadow(0 16px 48px rgba(96, 165, 250, 0.45))
-            drop-shadow(0 0px 60px rgba(147, 197, 253, 0.3));
-          transform: translateY(-1px);
-        }
-
-        /* Shimmer animation on logo */
-        .revlume-logo .logo-text::after {
-          content: 'Revlume';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            105deg,
-            transparent 30%,
-            rgba(255,255,255,0.55) 50%,
-            transparent 70%
-          );
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-size: 200% 100%;
-          background-position: -100%;
-          opacity: 0;
-          transition: opacity 0.2s;
-          pointer-events: none;
-        }
-
-        .revlume-logo:hover .logo-text::after {
-          opacity: 1;
-          animation: logoShimmer 0.6s ease forwards;
-        }
-
-        @keyframes logoShimmer {
-          0%   { background-position: -100%; }
-          100% { background-position: 200%; }
-        }
 
         /* ─── Desktop Nav Link — Glow + Bottom Border ─── */
         .nav-link-desktop {
@@ -423,15 +433,14 @@ const Navbar = () => {
         }
       `}</style>
 
-      <nav className="fixed top-0 left-0 w-full z-50 bg-[var(--background-primary)]/85 backdrop-blur-2xl border-b border-[var(--border-subtle)] shadow-[0_1px_20px_rgba(0,0,0,0.4)]">
+      <nav className="fixed top-0 left-0 w-full z-50 bg-[var(--background-primary)]/85 backdrop-blur-2xl border-b border-[var(--border-subtle)] shadow-[0_1px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_20px_rgba(0,0,0,0.4)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
 
             {/* ─── Logo 3D Premium ─── */}
             <Link to="/" className="revlume-logo flex-shrink-0">
-              <span className="logo-text">
-                Rev<span className="logo-lume">lume</span>
-              </span>
+              <span className="logo-rev">Rev</span>
+              <span className="logo-lume">lume</span>
             </Link>
 
             {/* ─── Desktop Navigation ─── */}
