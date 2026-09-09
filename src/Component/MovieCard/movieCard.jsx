@@ -293,7 +293,7 @@ const MovieCard = ({ movie }) => {
           showInfo ? 'translate-y-4 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
         }`}
       >
-        <h3 className="text-sm sm:text-base font-bold text-white mb-1 truncate drop-shadow-md group-hover:text-cyan-300 transition-colors">
+        <h3 className="text-sm sm:text-base font-bold !text-white mb-1 truncate drop-shadow-md group-hover:text-cyan-300 transition-colors">
           {title}
         </h3>
         

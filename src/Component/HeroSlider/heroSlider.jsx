@@ -110,7 +110,7 @@ const HeroSlider = () => {
                 </div>
 
                 {/* Title */}
-                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight text-[var(--text-primary)] drop-shadow-sm dark:drop-shadow-2xl text-balance">
+                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight !text-white drop-shadow-lg dark:drop-shadow-2xl text-balance">
                   {movie.title}
                 </h1>
 
